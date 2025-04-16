@@ -1,0 +1,51 @@
+[gd_scene load_steps=9 format=3 uid="uid://dyldvgs0pxnhe"]
+
+[ext_resource type="Script" uid="uid://ycawj3f3ngy2" path="res://scenes/spawner/spawner.gd" id="1_eoeca"]
+[ext_resource type="Shader" uid="uid://di6g21ujarmk3" path="res://scenes/spawner/spawner_core.gdshader" id="1_uhn3r"]
+[ext_resource type="Texture2D" uid="uid://5qup4lnyifuf" path="res://assets/sprites/sprite_base.png" id="2_wtxcb"]
+[ext_resource type="Shader" uid="uid://cl2hodk5krwe3" path="res://scenes/spawner/spawner_radius.gdshader" id="4_byvvi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uhn3r"]
+resource_local_to_scene = true
+shader = ExtResource("1_uhn3r")
+shader_parameter/color = Color(0, 0, 0, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uhn3r"]
+radius = 16.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_byvvi"]
+resource_local_to_scene = true
+shader = ExtResource("4_byvvi")
+shader_parameter/color = Color(0, 0, 0, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_byvvi"]
+radius = 48.0
+
+[node name="Spawner" type="Area2D"]
+script = ExtResource("1_eoeca")
+
+[node name="SpriteCore" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_uhn3r")
+texture = ExtResource("2_wtxcb")
+
+[node name="CollisionShapeCore" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_uhn3r")
+
+[node name="SpriteRadius" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_byvvi")
+scale = Vector2(3, 3)
+texture = ExtResource("2_wtxcb")
+
+[node name="CollisionShapeRadius" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_byvvi")
+
+[node name="SpawnTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

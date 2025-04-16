@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="TeamData" load_steps=2 format=3 uid="uid://cjnmip35itqn4"]
+
+[ext_resource type="Script" uid="uid://i4pg70ai81e6" path="res://scenes/team/team_data.gd" id="1_yrddo"]
+
+[resource]
+script = ExtResource("1_yrddo")
+metadata/_custom_type_script = "uid://i4pg70ai81e6"

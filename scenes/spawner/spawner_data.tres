@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="SpawnerData" load_steps=2 format=3 uid="uid://bw37ckbt5uk0h"]
+
+[ext_resource type="Script" uid="uid://c3pyoevqbyvr8" path="res://scenes/spawner/spawner_data.gd" id="1_e4078"]
+
+[resource]
+script = ExtResource("1_e4078")
+metadata/_custom_type_script = "uid://c3pyoevqbyvr8"

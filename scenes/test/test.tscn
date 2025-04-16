@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxrwx6ucro4ru"]
+
+[ext_resource type="Script" uid="uid://c7jsjb0n8np50" path="res://scenes/test/test.gd" id="1_m7npr"]
+[ext_resource type="PackedScene" uid="uid://bpojui7x8uolx" path="res://scenes/battle/battle.tscn" id="3_st4qh"]
+
+[node name="Test" type="Node2D"]
+script = ExtResource("1_m7npr")
+
+[node name="Battle" parent="." instance=ExtResource("3_st4qh")]
+unique_name_in_owner = true
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true

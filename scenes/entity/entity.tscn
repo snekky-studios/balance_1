@@ -1,10 +1,51 @@
-[gd_scene load_steps=3 format=3 uid="uid://kkfo0bulyt44"]
+[gd_scene load_steps=11 format=3 uid="uid://kkfo0bulyt44"]
 
 [ext_resource type="Script" uid="uid://citd2ytpy6rjn" path="res://scenes/entity/entity.gd" id="1_t6or0"]
 [ext_resource type="Texture2D" uid="uid://5qup4lnyifuf" path="res://assets/sprites/sprite_base.png" id="2_l1e1h"]
+[ext_resource type="Shader" uid="uid://buqn2wxtv57kw" path="res://scenes/entity/entity.gdshader" id="2_uorv3"]
+[ext_resource type="Texture2D" uid="uid://cqop4vnd8s3lx" path="res://scenes/entity/noise_dissolve.tres" id="3_qstjr"]
+[ext_resource type="Texture2D" uid="uid://xsudjx68vhak" path="res://scenes/entity/noise_wound.tres" id="4_8wy7d"]
+[ext_resource type="Script" uid="uid://cghs7jnr5klys" path="res://scripts/dissolver.gd" id="6_acqig"]
+[ext_resource type="Script" uid="uid://81m16jl32yif" path="res://scripts/wounder.gd" id="7_mdi4j"]
 
-[node name="Entity" type="Node2D"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8wy7d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qstjr"]
+resource_local_to_scene = true
+shader = ExtResource("2_uorv3")
+shader_parameter/color = Color(1, 0.988235, 1, 1)
+shader_parameter/u_dissolve_texture = ExtResource("3_qstjr")
+shader_parameter/u_dissolve_value = 1.0
+shader_parameter/u_wound_texture = ExtResource("4_8wy7d")
+shader_parameter/u_wound_value = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qstjr"]
+radius = 16.0
+
+[node name="Entity" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_8wy7d")
+gravity_scale = 0.0
 script = ExtResource("1_t6or0")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_qstjr")
 texture = ExtResource("2_l1e1h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_qstjr")
+
+[node name="Dissolver" type="Node" parent="." node_paths=PackedStringArray("sprite_2d")]
+unique_name_in_owner = true
+script = ExtResource("6_acqig")
+sprite_2d = NodePath("../Sprite")
+metadata/_custom_type_script = "uid://cghs7jnr5klys"
+
+[node name="Wounder" type="Node" parent="." node_paths=PackedStringArray("sprite_2d")]
+unique_name_in_owner = true
+script = ExtResource("7_mdi4j")
+sprite_2d = NodePath("../Sprite")
+metadata/_custom_type_script = "uid://81m16jl32yif"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

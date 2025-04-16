@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://bpojui7x8uolx"]
+
+[ext_resource type="Script" uid="uid://bhmi4xlr3wgll" path="res://scenes/battle/battle.gd" id="1_7gynk"]
+[ext_resource type="PackedScene" uid="uid://qppgsa6po1mb" path="res://scenes/team/team.tscn" id="2_ffvsa"]
+
+[node name="Battle" type="Node"]
+script = ExtResource("1_7gynk")
+
+[node name="Team0" parent="." instance=ExtResource("2_ffvsa")]
+unique_name_in_owner = true
+position = Vector2(340, 560)
+
+[node name="Team1" parent="." instance=ExtResource("2_ffvsa")]
+unique_name_in_owner = true
+position = Vector2(640, 360)
+
+[node name="Team2" parent="." instance=ExtResource("2_ffvsa")]
+unique_name_in_owner = true
+position = Vector2(940, 560)
+
+[node name="TimerRetarget" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="TimerRetarget" to="." method="_on_timer_retarget_timeout"]

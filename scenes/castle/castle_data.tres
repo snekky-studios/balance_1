@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="CastleData" load_steps=2 format=3 uid="uid://i5pf6hgx7qoa"]
+
+[ext_resource type="Script" uid="uid://bfgdd40pc8xka" path="res://scenes/castle/castle_data.gd" id="1_ctkru"]
+
+[resource]
+script = ExtResource("1_ctkru")
+metadata/_custom_type_script = "uid://bfgdd40pc8xka"

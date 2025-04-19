@@ -1,23 +1,24 @@
 extends Resource
 class_name SpawnerData
 
-signal team_changed
-
-var team : TeamData.Team = TeamData.Team.TEAM_NONE : set = _set_team
-
 var corruption : float = 100.0 : set = _set_corruption # when this reaches 0, spawner switches to another team
 var corruption_max : float = 100.0 : set = _set_corruption_max
-var spawn_timeout : float = 10.0 : set = _set_spawn_timeout
+var spawn_timeout : float = 1.0 : set = _set_spawn_timeout
 var spawn_radius : float = 48.0 : set = _set_spawn_radius
 
-var entity_hitpoints_max : float = 100.0
-var entity_attack : float = 10.0
-var entity_attack_range : float = 32.0
-var entity_speed : float = 30.0
+var entity_hitpoints_max : float = 100.0 : set = _set_entity_hitpoints_max
+var entity_attack : float = 10.0 : set = _set_entity_attack
+var entity_attack_range : float = 34.0 : set = _set_entity_attack_range
+var entity_speed : float = 30.0 : set = _set_entity_speed
 
-func _set_team(value : TeamData.Team) -> void:
-	team = value
-	team_changed.emit()
+func copy(spawner_data : SpawnerData) -> void:
+	corruption_max = spawner_data.corruption_max
+	spawn_timeout = spawner_data.spawn_timeout
+	spawn_radius = spawner_data.spawn_radius
+	entity_hitpoints_max = spawner_data.entity_hitpoints_max
+	entity_attack = spawner_data.entity_attack
+	entity_attack_range = spawner_data.entity_attack_range
+	entity_speed = spawner_data.entity_speed
 	return
 
 func _set_corruption(value : float) -> void:
@@ -27,6 +28,7 @@ func _set_corruption(value : float) -> void:
 func _set_corruption_max(value : float) -> void:
 	corruption_max = value
 	corruption = corruption_max
+	emit_changed()
 	return
 
 func _set_spawn_timeout(value : float) -> void:
@@ -38,3 +40,34 @@ func _set_spawn_radius(value : float) -> void:
 	spawn_radius = value
 	emit_changed()
 	return
+
+func _set_entity_hitpoints_max(value : float) -> void:
+	entity_hitpoints_max = value
+	emit_changed()
+	return
+
+func _set_entity_attack(value : float) -> void:
+	entity_attack = value
+	emit_changed()
+	return
+
+func _set_entity_attack_range(value : float) -> void:
+	entity_attack_range = value
+	emit_changed()
+	return
+
+func _set_entity_speed(value : float) -> void:
+	entity_speed = value
+	emit_changed()
+	return
+
+func _to_string() -> String:
+	var output : String = ""
+	output += "Max Corruption: " + str(corruption_max) + "\n"
+	output += "Spawn Timeout: " + str(spawn_timeout) + "\n"
+	output += "Spawn Radius: " + str(spawn_radius) + "\n"
+	output += "Entity Max Hitpoints:" + str(entity_hitpoints_max) + "\n"
+	output += "Entity Attack: " + str(entity_attack) + "\n"
+	output += "Entity Attack Range: " + str(entity_attack_range) + "\n"
+	output += "Entity Speed: " + str(entity_speed)
+	return output

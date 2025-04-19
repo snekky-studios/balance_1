@@ -6,6 +6,8 @@ signal spawner_corrupted(spawner : Spawner, old_team : TeamData.Team, new_team :
 signal entity_dying(entity : Entity)
 signal entity_attacked(target : Entity, damage : float)
 signal entity_needs_target(entity : Entity)
+signal evolve_progress_updated(value : float)
+
 
 const TEAM_DATA : TeamData = preload("res://scenes/team/team_data.tres")
 const CASTLE_DATA : CastleData = preload("res://scenes/castle/castle_data.tres")
@@ -20,44 +22,73 @@ var castles : Array[Castle] = []
 var spawners : Array[Spawner] = []
 var entities : Array[Entity] = []
 
+var evolver : Evolver = null
+
 func _ready() -> void:
+	evolver = %Evolver
+	
 	stats = TEAM_DATA.duplicate()
 	stats.castle_data = CASTLE_DATA.duplicate()
 	stats.spawner_data = SPAWNER_DATA.duplicate()
 	stats.changed.connect(_on_stats_changed)
 	
+	evolver.castle_stats = stats.castle_data
+	evolver.spawner_stats = stats.spawner_data
+	evolver.evolved.connect(_on_evolver_evolved)
+	evolver.evolve_progress_updated.connect(_on_evolver_evolve_progress_updated)
+	evolver.randomize_stats()
+	
 	var new_castle : Castle = CASTLE.instantiate()
 	add_castle(new_castle)
 	
 	var spawner : Spawner = SPAWNER.instantiate()
-	add_spawner(spawner)
+	add_spawner(new_castle, spawner)
+	new_castle.add_spawner(spawner)
+	return
+
+func _physics_process(delta: float) -> void:
+	for castle : Castle in castles:
+		castle.increase_spawner_growth(delta)
+	evolver.increase_evolve_progress(delta)
 	return
 
 func add_castle(castle : Castle) -> void:
-	castle.stats = stats.castle_data
+	if(not castle.stats):
+		castle.stats = CASTLE_DATA.duplicate()
+	castle.stats.copy(stats.castle_data)
 	add_child(castle)
+	castle.team = stats.team
 	castle.corrupted.connect(_on_castle_corrupted)
+	castle.spawner_grown.connect(_on_castle_spawner_grown)
 	castles.append(castle)
 	return
 
-func swap_castle(castle : Castle, new_team : Team) -> void:
+static func swap_castle(castle : Castle, new_team : Team) -> void:
 	# remove castle from self
 	var position_temp : Vector2 = castle.global_position
-	remove_child(castle)
-	castle.corrupted.disconnect(_on_castle_corrupted)
-	if(castle in castles):
-		castles.erase(castle)
+	var team : Team = castle.get_parent()
+	team.remove_child(castle)
+	castle.corrupted.disconnect(team._on_castle_corrupted)
+	castle.spawner_grown.disconnect(team._on_castle_spawner_grown)
+	team.castles.erase(castle)
 	# add castle to new team
 	new_team.add_child(castle)
+	castle.team = new_team.stats.team
 	castle.corrupted.connect(new_team._on_castle_corrupted)
+	castle.spawner_grown.connect(new_team._on_castle_spawner_grown)
 	new_team.castles.append(castle)
 	castle.global_position = position_temp
 	return
 
-func add_spawner(spawner : Spawner) -> void:
-	spawner.stats = stats.spawner_data
+func add_spawner(castle : Castle, spawner : Spawner) -> void:
+	if(not spawner.stats):
+		spawner.stats = SPAWNER_DATA.duplicate()
+	spawner.stats.copy(stats.spawner_data)
 	add_child(spawner)
-	spawner.position = Vector2(randf_range(-100, 100), randf_range(-100, 100))
+	spawner.team = stats.team
+	var radius : float = randf_range(Castle.MIN_RADIUS, Castle.SPAWNER_RADIUS)
+	var direction : Vector2 = Vector2.from_angle(randf_range(0.0, 2.0 * PI))
+	spawner.position = castle.position + direction * radius
 	spawner.spawned.connect(add_entity)
 	spawner.corrupted.connect(_on_spawner_corrupted)
 	spawners.append(spawner)
@@ -70,16 +101,16 @@ func remove_spawner(spawner : Spawner) -> void:
 	spawner.queue_free()
 	return
 
-func swap_spawner(spawner : Spawner, new_team : Team) -> void:
-	# remove spawner from self
+static func swap_spawner(spawner : Spawner, new_team : Team) -> void:
+	# remove spawner from old team
 	var postition_temp : Vector2 = spawner.global_position
-	remove_child(spawner)
-	spawner.spawned.disconnect(add_entity)
-	spawner.corrupted.disconnect(_on_spawner_corrupted)
-	if(spawner in spawners):
-		spawners.erase(spawner)
+	var team : Team = spawner.get_parent()
+	team.remove_child(spawner)
+	spawner.spawned.disconnect(team.add_entity)
+	spawner.corrupted.disconnect(team._on_spawner_corrupted)
+	team.spawners.erase(spawner)
 	# add spawner to new team
-	spawner.stats.team = new_team.stats.team
+	spawner.team = new_team.stats.team
 	new_team.add_child(spawner)
 	spawner.spawned.connect(new_team.add_entity)
 	spawner.corrupted.connect(new_team._on_spawner_corrupted)
@@ -89,7 +120,7 @@ func swap_spawner(spawner : Spawner, new_team : Team) -> void:
 
 func add_entity(entity : Entity) -> void:
 	add_child(entity)
-	entity.stats.team = stats.team
+	entity.team = stats.team
 	entity.dying.connect(_on_entity_dying)
 	entity.dead.connect(_on_entity_dead)
 	entity.attacked.connect(_on_entity_attacked)
@@ -113,22 +144,29 @@ func get_nodes() -> Array[Node2D]:
 	nodes.append_array(entities)
 	return nodes
 
-
 func _on_stats_changed() -> void:
 	for castle : Castle in castles:
-		castle.stats = stats.castle_data
+		castle.team = stats.team
+		castle.stats.copy(stats.castle_data)
 	for spawner : Spawner in spawners:
-		spawner.stats = stats.spawner_data
+		spawner.team = stats.team
+		spawner.stats.copy(stats.spawner_data)
 	for entity : Entity in entities:
-		entity.stats.team = stats.team
+		entity.team = stats.team
 	return
 
-func _on_castle_corrupted(corrupted_castle : Castle, old_team : TeamData.Team, new_team : TeamData.Team) -> void:
-	castle_corrupted.emit(corrupted_castle, old_team, new_team)
+func _on_castle_corrupted(corrupted_castle : Castle, new_team : TeamData.Team) -> void:
+	castle_corrupted.emit(corrupted_castle, new_team)
 	return
 
-func _on_spawner_corrupted(spawner : Spawner, old_team : TeamData.Team, new_team : TeamData.Team) -> void:
-	spawner_corrupted.emit(spawner, old_team, new_team)
+func _on_castle_spawner_grown(castle : Castle) -> void:
+	var spawner : Spawner = SPAWNER.instantiate()
+	add_spawner(castle, spawner)
+	castle.add_spawner(spawner)
+	return
+
+func _on_spawner_corrupted(spawner : Spawner, new_team : TeamData.Team) -> void:
+	spawner_corrupted.emit(spawner, new_team)
 	return
 
 func _on_entity_dying(entity : Entity) -> void:
@@ -145,4 +183,12 @@ func _on_entity_attacked(source : Entity, target : Node2D, damage : float) -> vo
 
 func _on_entity_needs_target(entity : Entity) -> void:
 	entity_needs_target.emit(entity)
+	return
+
+func _on_evolver_evolved(stat_type : Evolver.StatType) -> void:
+	#print(stat_type, "\n", stats.castle_data, "\n", stats.spawner_data)
+	return
+
+func _on_evolver_evolve_progress_updated(value : float) -> void:
+	evolve_progress_updated.emit(value)
 	return

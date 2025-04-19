@@ -1,6 +1,27 @@
-[gd_scene load_steps=2 format=3 uid="uid://crgk8nc02gxxm"]
+[gd_scene load_steps=5 format=3 uid="uid://crgk8nc02gxxm"]
 
 [ext_resource type="Script" uid="uid://c1l7mjar0rd27" path="res://scenes/game/game.gd" id="1_sul5r"]
+[ext_resource type="PackedScene" uid="uid://bpojui7x8uolx" path="res://scenes/battle/battle.tscn" id="2_7h61r"]
+[ext_resource type="PackedScene" uid="uid://b1tuacklurd8d" path="res://scenes/bomb/bomb.tscn" id="3_0sr1o"]
+[ext_resource type="PackedScene" uid="uid://c0daytx0ufxkf" path="res://scenes/ui/ui.tscn" id="4_kelw5"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_sul5r")
+
+[node name="Battle" parent="." instance=ExtResource("2_7h61r")]
+unique_name_in_owner = true
+
+[node name="Bomb" parent="." instance=ExtResource("3_0sr1o")]
+unique_name_in_owner = true
+
+[node name="TimerScore" type="Timer" parent="."]
+unique_name_in_owner = true
+autostart = true
+
+[node name="CanvasLayerUI" type="CanvasLayer" parent="."]
+
+[node name="UI" parent="CanvasLayerUI" instance=ExtResource("4_kelw5")]
+unique_name_in_owner = true
+mouse_filter = 2
+
+[connection signal="timeout" from="TimerScore" to="." method="_on_timer_score_timeout"]

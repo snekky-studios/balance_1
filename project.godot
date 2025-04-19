@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="balance_1"
-run/main_scene="uid://bxrwx6ucro4ru"
+run/main_scene="uid://crgk8nc02gxxm"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/show_image=false
 config/icon="res://assets/sprites/icon.svg"
@@ -33,6 +33,10 @@ window/stretch/mode="canvas_items"
 2d_physics/layer_2="team0"
 2d_physics/layer_3="team1"
 2d_physics/layer_4="team2"
+
+[physics]
+
+common/physics_ticks_per_second=30
 
 [rendering]
 

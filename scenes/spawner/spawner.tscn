@@ -30,7 +30,6 @@ material = SubResource("ShaderMaterial_uhn3r")
 texture = ExtResource("2_wtxcb")
 
 [node name="CollisionShapeCore" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("CircleShape2D_uhn3r")
 
 [node name="SpriteRadius" type="Sprite2D" parent="."]
@@ -45,7 +44,5 @@ shape = SubResource("CircleShape2D_byvvi")
 
 [node name="SpawnTimer" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 2.0
-autostart = true
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

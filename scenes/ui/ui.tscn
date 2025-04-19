@@ -1,0 +1,774 @@
+[gd_scene load_steps=11 format=3 uid="uid://c0daytx0ufxkf"]
+
+[ext_resource type="Theme" uid="uid://sb67uyy60h2q" path="res://assets/themes/theme.tres" id="1_f5cxw"]
+[ext_resource type="Script" uid="uid://dt03hqaybk5us" path="res://scenes/ui/ui.gd" id="1_u7n8c"]
+[ext_resource type="StyleBox" uid="uid://ce77sp80om45k" path="res://scenes/ui/panel_container_style_box.tres" id="3_aac20"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aac20"]
+bg_color = Color(0.6, 0.6, 0.6, 0.25098)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jcn1r"]
+bg_color = Color(0.0784314, 0.188235, 0.345098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uegxj"]
+bg_color = Color(0.016, 0.486, 0.424, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pfayw"]
+bg_color = Color(0.0784314, 0.188235, 0.345098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7vp6q"]
+bg_color = Color(0.988, 0.737, 0.737, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g5kmx"]
+bg_color = Color(0.0784314, 0.188235, 0.345098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0dwhk"]
+bg_color = Color(1, 0.847, 0.596, 1)
+
+[node name="UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_f5cxw")
+script = ExtResource("1_u7n8c")
+
+[node name="HBoxStats" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 908.0
+grow_vertical = 0
+theme = ExtResource("1_f5cxw")
+
+[node name="PanelTeam0" type="PanelContainer" parent="HBoxStats"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = ExtResource("3_aac20")
+
+[node name="VBoxTeam0" type="VBoxContainer" parent="HBoxStats/PanelTeam0"]
+custom_minimum_size = Vector2(288, 0)
+layout_mode = 2
+size_flags_vertical = 8
+theme = ExtResource("1_f5cxw")
+
+[node name="ButtonTeam0" type="Button" parent="HBoxStats/PanelTeam0/VBoxTeam0"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_vertical = 10
+theme = ExtResource("1_f5cxw")
+text = "Team 1"
+
+[node name="VBoxStatsTeam0" type="VBoxContainer" parent="HBoxStats/PanelTeam0/VBoxTeam0"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="HBoxStructures" type="HBoxContainer" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelStructures" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxStructures"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Tendrils: "
+
+[node name="LabelStructuresCount0" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxStructures"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "10"
+
+[node name="HBoxEntities" type="HBoxContainer" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelEntities" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxEntities"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Entities: "
+
+[node name="LabelEntitiesCount0" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxEntities"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "10"
+
+[node name="HBoxCastleCorruption" type="HBoxContainer" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelCastleCorruption" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxCastleCorruption"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Mind Corruption Resistance: "
+
+[node name="LabelCastleCorruptionAmount0" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxCastleCorruption"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "100.0"
+
+[node name="HBoxCastleSpawnerGrowthSpeed" type="HBoxContainer" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelCastleSpawnerGrowthSpeed" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxCastleSpawnerGrowthSpeed"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Spawner Growth Speed: "
+
+[node name="LabelCastleSpawnerGrowthSpeedAmount0" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxCastleSpawnerGrowthSpeed"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "10.0"
+
+[node name="HBoxSpawnerCorruption" type="HBoxContainer" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelSpawnerCorruption" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxSpawnerCorruption"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Spawner Corruption Resistance: "
+
+[node name="LabelSpawnerCorruptionAmount0" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxSpawnerCorruption"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "10.0"
+
+[node name="HBoxSpawnerSpawnTimeout" type="HBoxContainer" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelSpawnerSpawnTimeout" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxSpawnerSpawnTimeout"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Spawner Spawn Speed: "
+
+[node name="LabelSpawnerSpawnTimeoutAmount0" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxSpawnerSpawnTimeout"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "10.0"
+
+[node name="HBoxSpawnerSpawnRadius" type="HBoxContainer" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelSpawnerSpawnRadius" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxSpawnerSpawnRadius"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Spawner Spawn Radius: "
+
+[node name="LabelSpawnerSpawnRadiusAmount0" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxSpawnerSpawnRadius"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "48.0"
+
+[node name="HBoxEntityHitpoints" type="HBoxContainer" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelEntityHitpoints" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxEntityHitpoints"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Tendril  Hitpoints: "
+
+[node name="LabelEntityHitpointsAmount0" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxEntityHitpoints"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "100.0"
+
+[node name="HBoxEntityAttack" type="HBoxContainer" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelEntityAttack" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxEntityAttack"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Tendril Attack: "
+
+[node name="LabelEntityAttackAmount0" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxEntityAttack"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "10.0"
+
+[node name="HBoxEntityAttackRange" type="HBoxContainer" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelEntityAttackRange" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxEntityAttackRange"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Tendril Attack Range: "
+
+[node name="LabelEntityAttackRangeAmount0" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxEntityAttackRange"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "34.0"
+
+[node name="HBoxEntitySpeed" type="HBoxContainer" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelEntitySpeed" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxEntitySpeed"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Tendril Speed: "
+
+[node name="LabelEntitySpeedAmount0" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxEntitySpeed"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "30.0"
+
+[node name="PanelTeam1" type="PanelContainer" parent="HBoxStats"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = ExtResource("3_aac20")
+
+[node name="VBoxTeam1" type="VBoxContainer" parent="HBoxStats/PanelTeam1"]
+custom_minimum_size = Vector2(288, 0)
+layout_mode = 2
+size_flags_vertical = 8
+theme = ExtResource("1_f5cxw")
+
+[node name="ButtonTeam1" type="Button" parent="HBoxStats/PanelTeam1/VBoxTeam1"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_vertical = 10
+text = "Team 2"
+
+[node name="VBoxStatsTeam1" type="VBoxContainer" parent="HBoxStats/PanelTeam1/VBoxTeam1"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="HBoxStructures" type="HBoxContainer" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1"]
+layout_mode = 2
+
+[node name="LabelStructures" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxStructures"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Structures: "
+
+[node name="LabelStructuresCount1" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxStructures"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+
+[node name="HBoxEntities" type="HBoxContainer" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1"]
+layout_mode = 2
+
+[node name="LabelEntities" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxEntities"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Tendrils: "
+
+[node name="LabelEntitiesCount1" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxEntities"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+
+[node name="HBoxCastleCorruption" type="HBoxContainer" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1"]
+layout_mode = 2
+
+[node name="LabelCastleCorruption" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxCastleCorruption"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Mind Corruption Resistance: "
+
+[node name="LabelCastleCorruptionAmount1" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxCastleCorruption"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "100.0"
+
+[node name="HBoxCastleSpawnerGrowthSpeed" type="HBoxContainer" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1"]
+layout_mode = 2
+
+[node name="LabelCastleSpawnerGrowthSpeed" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxCastleSpawnerGrowthSpeed"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Spawner Growth Speed: "
+
+[node name="LabelCastleSpawnerGrowthSpeedAmount1" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxCastleSpawnerGrowthSpeed"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10.0"
+
+[node name="HBoxSpawnerCorruption" type="HBoxContainer" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1"]
+layout_mode = 2
+
+[node name="LabelSpawnerCorruption" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxSpawnerCorruption"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Spawner Corruption Resistance: "
+
+[node name="LabelSpawnerCorruptionAmount1" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxSpawnerCorruption"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10.0"
+
+[node name="HBoxSpawnerSpawnTimeout" type="HBoxContainer" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1"]
+layout_mode = 2
+
+[node name="LabelSpawnerSpawnTimeout" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxSpawnerSpawnTimeout"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Spawner Spawn Speed: "
+
+[node name="LabelSpawnerSpawnTimeoutAmount1" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxSpawnerSpawnTimeout"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10.0"
+
+[node name="HBoxSpawnerSpawnRadius" type="HBoxContainer" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1"]
+layout_mode = 2
+
+[node name="LabelSpawnerSpawnRadius" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxSpawnerSpawnRadius"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Spawner Spawn Radius: "
+
+[node name="LabelSpawnerSpawnRadiusAmount1" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxSpawnerSpawnRadius"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "48.0"
+
+[node name="HBoxEntityHitpoints" type="HBoxContainer" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1"]
+layout_mode = 2
+
+[node name="LabelEntityHitpoints" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxEntityHitpoints"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Tendril  Hitpoints: "
+
+[node name="LabelEntityHitpointsAmount1" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxEntityHitpoints"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "100.0"
+
+[node name="HBoxEntityAttack" type="HBoxContainer" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1"]
+layout_mode = 2
+
+[node name="LabelEntityAttack" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxEntityAttack"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Tendril Attack: "
+
+[node name="LabelEntityAttackAmount1" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxEntityAttack"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10.0"
+
+[node name="HBoxEntityAttackRange" type="HBoxContainer" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1"]
+layout_mode = 2
+
+[node name="LabelEntityAttackRange" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxEntityAttackRange"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Tendril Attack Range: "
+
+[node name="LabelEntityAttackRangeAmount1" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxEntityAttackRange"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "34.0"
+
+[node name="HBoxEntitySpeed" type="HBoxContainer" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1"]
+layout_mode = 2
+
+[node name="LabelEntitySpeed" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxEntitySpeed"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Tendril Speed: "
+
+[node name="LabelEntitySpeedAmount1" type="Label" parent="HBoxStats/PanelTeam1/VBoxTeam1/VBoxStatsTeam1/HBoxEntitySpeed"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "30.0"
+
+[node name="PanelTeam2" type="PanelContainer" parent="HBoxStats"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = ExtResource("3_aac20")
+
+[node name="VBoxTeam2" type="VBoxContainer" parent="HBoxStats/PanelTeam2"]
+custom_minimum_size = Vector2(288, 0)
+layout_mode = 2
+size_flags_vertical = 8
+theme = ExtResource("1_f5cxw")
+
+[node name="ButtonTeam2" type="Button" parent="HBoxStats/PanelTeam2/VBoxTeam2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_vertical = 10
+theme = ExtResource("1_f5cxw")
+text = "Team 3"
+
+[node name="VBoxStatsTeam2" type="VBoxContainer" parent="HBoxStats/PanelTeam2/VBoxTeam2"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="HBoxStructures" type="HBoxContainer" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelStructures" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxStructures"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Structures: "
+
+[node name="LabelStructuresCount2" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxStructures"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "10"
+
+[node name="HBoxEntities" type="HBoxContainer" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelEntities" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxEntities"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Tendrils: "
+
+[node name="LabelEntitiesCount2" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxEntities"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "10"
+
+[node name="HBoxCastleCorruption" type="HBoxContainer" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelCastleCorruption" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxCastleCorruption"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Mind Corruption Resistance: "
+
+[node name="LabelCastleCorruptionAmount2" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxCastleCorruption"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "100.0"
+
+[node name="HBoxCastleSpawnerGrowthSpeed" type="HBoxContainer" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelCastleSpawnerGrowthSpeed" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxCastleSpawnerGrowthSpeed"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Spawner Growth Speed: "
+
+[node name="LabelCastleSpawnerGrowthSpeedAmount2" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxCastleSpawnerGrowthSpeed"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "10.0"
+
+[node name="HBoxSpawnerCorruption" type="HBoxContainer" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelSpawnerCorruption" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxSpawnerCorruption"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Spawner Corruption Resistance: "
+
+[node name="LabelSpawnerCorruptionAmount2" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxSpawnerCorruption"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "10.0"
+
+[node name="HBoxSpawnerSpawnTimeout" type="HBoxContainer" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelSpawnerSpawnTimeout" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxSpawnerSpawnTimeout"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Spawner Spawn Speed: "
+
+[node name="LabelSpawnerSpawnTimeoutAmount2" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxSpawnerSpawnTimeout"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "10.0"
+
+[node name="HBoxSpawnerSpawnRadius" type="HBoxContainer" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelSpawnerSpawnRadius" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxSpawnerSpawnRadius"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Spawner Spawn Radius: "
+
+[node name="LabelSpawnerSpawnRadiusAmount2" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxSpawnerSpawnRadius"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "48.0"
+
+[node name="HBoxEntityHitpoints" type="HBoxContainer" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelEntityHitpoints" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxEntityHitpoints"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Tendril  Hitpoints: "
+
+[node name="LabelEntityHitpointsAmount2" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxEntityHitpoints"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "100.0"
+
+[node name="HBoxEntityAttack" type="HBoxContainer" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelEntityAttack" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxEntityAttack"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Tendril Attack: "
+
+[node name="LabelEntityAttackAmount2" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxEntityAttack"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "10.0"
+
+[node name="HBoxEntityAttackRange" type="HBoxContainer" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelEntityAttackRange" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxEntityAttackRange"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Tendril Attack Range: "
+
+[node name="LabelEntityAttackRangeAmount2" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxEntityAttackRange"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "34.0"
+
+[node name="HBoxEntitySpeed" type="HBoxContainer" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2"]
+layout_mode = 2
+theme = ExtResource("1_f5cxw")
+
+[node name="LabelEntitySpeed" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxEntitySpeed"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_f5cxw")
+text = "Tendril Speed: "
+
+[node name="LabelEntitySpeedAmount2" type="Label" parent="HBoxStats/PanelTeam2/VBoxTeam2/VBoxStatsTeam2/HBoxEntitySpeed"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_f5cxw")
+text = "30.0"
+
+[node name="ButtonExpand" type="Button" parent="HBoxStats"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 8
+text = "^"
+
+[node name="VBoxButtons" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -54.0
+offset_top = -35.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("1_f5cxw")
+alignment = 2
+
+[node name="PanelContainerBomb" type="PanelContainer" parent="VBoxButtons"]
+layout_mode = 2
+
+[node name="ProgressBarBomb" type="ProgressBar" parent="VBoxButtons/PanelContainerBomb"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+max_value = 5.0
+value = 5.0
+show_percentage = false
+
+[node name="ButtonBomb" type="Button" parent="VBoxButtons/PanelContainerBomb"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 64)
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_normal_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_aac20")
+text = "Bomb"
+
+[node name="VBoxEvolution" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="HBoxTeam0" type="HBoxContainer" parent="VBoxEvolution"]
+layout_mode = 2
+
+[node name="LabelEvolution0" type="Label" parent="VBoxEvolution/HBoxTeam0"]
+layout_mode = 2
+text = "Team 1 Evolution Progress: "
+
+[node name="ProgressBarEvolution0" type="ProgressBar" parent="VBoxEvolution/HBoxTeam0"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_jcn1r")
+theme_override_styles/fill = SubResource("StyleBoxFlat_uegxj")
+show_percentage = false
+
+[node name="HBoxTeam1" type="HBoxContainer" parent="VBoxEvolution"]
+layout_mode = 2
+
+[node name="LabelEvolution1" type="Label" parent="VBoxEvolution/HBoxTeam1"]
+layout_mode = 2
+text = "Team 2 Evolution Progress: "
+
+[node name="ProgressBarEvolution1" type="ProgressBar" parent="VBoxEvolution/HBoxTeam1"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_pfayw")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7vp6q")
+show_percentage = false
+
+[node name="HBoxTeam2" type="HBoxContainer" parent="VBoxEvolution"]
+layout_mode = 2
+
+[node name="LabelEvolution2" type="Label" parent="VBoxEvolution/HBoxTeam2"]
+layout_mode = 2
+text = "Team 3 Evolution Progress: "
+
+[node name="ProgressBarEvolution2" type="ProgressBar" parent="VBoxEvolution/HBoxTeam2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_g5kmx")
+theme_override_styles/fill = SubResource("StyleBoxFlat_0dwhk")
+show_percentage = false
+
+[node name="HBoxScore" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="LabelScore" type="Label" parent="HBoxScore"]
+layout_mode = 2
+text = "Score: "
+
+[node name="LabelScoreCount" type="Label" parent="HBoxScore"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[connection signal="pressed" from="HBoxStats/PanelTeam0/VBoxTeam0/ButtonTeam0" to="." method="_on_button_team_0_pressed"]
+[connection signal="pressed" from="HBoxStats/PanelTeam1/VBoxTeam1/ButtonTeam1" to="." method="_on_button_team_1_pressed"]
+[connection signal="pressed" from="HBoxStats/PanelTeam2/VBoxTeam2/ButtonTeam2" to="." method="_on_button_team_2_pressed"]
+[connection signal="pressed" from="HBoxStats/ButtonExpand" to="." method="_on_button_expand_pressed"]
+[connection signal="pressed" from="VBoxButtons/PanelContainerBomb/ButtonBomb" to="." method="_on_button_bomb_pressed"]

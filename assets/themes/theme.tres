@@ -1,0 +1,17 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://sb67uyy60h2q"]
+
+[ext_resource type="StyleBox" uid="uid://ce77sp80om45k" path="res://scenes/ui/panel_container_style_box.tres" id="1_7egdk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_51ufp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p0u25"]
+bg_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pdjgs"]
+bg_color = Color(0, 1, 0, 1)
+
+[resource]
+Button/styles/focus = SubResource("StyleBoxEmpty_51ufp")
+PanelContainer/styles/panel = ExtResource("1_7egdk")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_p0u25")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_pdjgs")

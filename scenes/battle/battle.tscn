@@ -12,7 +12,7 @@ position = Vector2(340, 560)
 
 [node name="Team1" parent="." instance=ExtResource("2_ffvsa")]
 unique_name_in_owner = true
-position = Vector2(640, 360)
+position = Vector2(640, 160)
 
 [node name="Team2" parent="." instance=ExtResource("2_ffvsa")]
 unique_name_in_owner = true

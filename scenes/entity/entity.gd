@@ -15,6 +15,8 @@ const COLLISION_INDEX : Dictionary = {
 	"team2" : 4,
 }
 
+var team : TeamData.Team = TeamData.Team.TEAM_NONE : set = _set_team
+
 var stats : EntityData = null
 @export var target : Node2D = null
 var in_range : bool = false # true if target is within attack range
@@ -28,11 +30,8 @@ func _ready() -> void:
 	sprite = %Sprite
 	dissolver = %Dissolver
 	wounder = %Wounder
-	
-	#stats = ENTITY_DATA.duplicate()
-	#stats.team = EntityData.Team.TEAM_NONE
+
 	stats.changed.connect(_on_stats_changed)
-	stats.team_changed.connect(_on_stats_team_changed)
 	stats.dying.connect(_on_dying)
 	
 	sprite.material.set_shader_parameter("u_wound_value", 1.0)
@@ -89,10 +88,11 @@ func _on_stats_changed() -> void:
 	wounder.set_wound(stats.hitpoints / stats.hitpoints_max)
 	return
 
-func _on_stats_team_changed() -> void:
-	_set_color(TeamData.TEAM_COLOR[stats.team])
+func _set_team(value : TeamData.Team) -> void:
+	team = value
+	_set_color(TeamData.TEAM_COLOR[team])
 	# update collision layers and masks
-	match stats.team:
+	match team:
 		TeamData.Team.TEAM_NONE:
 			set_collision_layer_value(COLLISION_INDEX["world"], true)
 			set_collision_layer_value(COLLISION_INDEX["team0"], false)

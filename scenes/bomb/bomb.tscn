@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://b1tuacklurd8d"]
+
+[ext_resource type="Script" uid="uid://1ntbb3nvpmjm" path="res://scenes/bomb/bomb.gd" id="1_eax2s"]
+[ext_resource type="Shader" uid="uid://deklq1unqgji3" path="res://scenes/bomb/bomb.gdshader" id="1_rqjch"]
+[ext_resource type="Texture2D" uid="uid://5qup4lnyifuf" path="res://assets/sprites/sprite_base.png" id="2_eax2s"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_76ftv"]
+shader = ExtResource("1_rqjch")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tvxi3"]
+radius = 128.0
+
+[node name="Bomb" type="Area2D"]
+collision_mask = 15
+script = ExtResource("1_eax2s")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_76ftv")
+scale = Vector2(8, 8)
+texture = ExtResource("2_eax2s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_tvxi3")
+
+[node name="TimerCooldown" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 5.0
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

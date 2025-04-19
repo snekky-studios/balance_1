@@ -1,8 +1,7 @@
 extends Node
 class_name Battle
 
-
-const DISTANCE_MAX : float = sqrt(Game.WINDOW_WIDTH * Game.WINDOW_WIDTH + Game.WINDOW_WIDTH * Game.WINDOW_WIDTH)
+signal team_stats_changed#(stats_team_0 : TeamData, stats_team_1 : TeamData, stats_team_2 : TeamData)
 
 var team_0 : Team = null
 var team_1 : Team = null
@@ -16,6 +15,13 @@ func _ready() -> void:
 	team_0.stats.team = TeamData.Team.TEAM_0
 	team_1.stats.team = TeamData.Team.TEAM_1
 	team_2.stats.team = TeamData.Team.TEAM_2
+	
+	team_0.stats.castle_data.changed.connect(_on_team_stats_changed)
+	team_0.stats.spawner_data.changed.connect(_on_team_stats_changed)
+	team_1.stats.castle_data.changed.connect(_on_team_stats_changed)
+	team_1.stats.spawner_data.changed.connect(_on_team_stats_changed)
+	team_2.stats.castle_data.changed.connect(_on_team_stats_changed)
+	team_2.stats.spawner_data.changed.connect(_on_team_stats_changed)
 	
 	team_0.castle_corrupted.connect(_on_node_corrupted)
 	team_0.spawner_corrupted.connect(_on_node_corrupted)
@@ -62,7 +68,7 @@ func _set_target_all_entities() -> void:
 # returns a list of all nodes on opposing teams from entity
 func _get_nodes_opposing_teams(entity: Entity) -> Array[Node2D]:
 	var nodes_opposing_teams : Array[Node2D] = []
-	match entity.stats.team:
+	match entity.team:
 		TeamData.Team.TEAM_0:
 			nodes_opposing_teams.append_array(team_1.get_nodes())
 			nodes_opposing_teams.append_array(team_2.get_nodes())
@@ -99,18 +105,8 @@ func _resolve_damage(source : Entity, target : Node2D, damage : float) -> void:
 		print("error: invalid target type - " + str(target))
 	return
 
-func _on_node_corrupted(node : Node2D, old_team : TeamData.Team, new_team : TeamData.Team) -> void:
-	var old_team_instance : Team = null
+func _on_node_corrupted(node : Node2D, new_team : TeamData.Team) -> void:
 	var new_team_instance : Team = null
-	match old_team:
-		TeamData.Team.TEAM_0:
-			old_team_instance = team_0
-		TeamData.Team.TEAM_1:
-			old_team_instance = team_1
-		TeamData.Team.TEAM_2:
-			old_team_instance = team_2
-		_:
-			print("error: node's old team invalid - " + str(node) + " " + str(old_team))
 	match new_team:
 		TeamData.Team.TEAM_0:
 			new_team_instance = team_0
@@ -121,16 +117,17 @@ func _on_node_corrupted(node : Node2D, old_team : TeamData.Team, new_team : Team
 		_:
 			print("error: node's new team invalid - " + str(node) + " " + str(new_team))
 	if(node is Spawner):
-		old_team_instance.swap_spawner(node, new_team_instance)
+		Team.swap_spawner(node, new_team_instance)
 	elif(node is Castle):
-		old_team_instance.swap_castle(node, new_team_instance)
-		for spawner : Spawner in old_team_instance.spawners:
-			old_team_instance.swap_spawner(spawner, new_team_instance)
+		Team.swap_castle(node, new_team_instance)
+		var spawners_copy : Array[Spawner] = node.spawners.duplicate()
+		for spawner : Spawner in spawners_copy:
+			Team.swap_spawner(spawner, new_team_instance)
 	_set_target_all_entities()
 	return
 
 func _on_entity_dying(entity : Entity) -> void:
-	var team : TeamData.Team = entity.stats.team
+	var team : TeamData.Team = entity.team
 	# reset the target of any entity that was targeting the dying entity
 	if(team == TeamData.Team.TEAM_0 or team == TeamData.Team.TEAM_1):
 		for entity_team_2 : Entity in team_2.entities:
@@ -153,6 +150,10 @@ func _on_entity_dying(entity : Entity) -> void:
 		team_2.entities.erase(entity)
 	else:
 		print("error: entity belongs to no team")
+	return
+
+func _on_team_stats_changed() -> void:
+	team_stats_changed.emit(team_0.stats, team_1.stats, team_2.stats)
 	return
 
 func _on_timer_retarget_timeout() -> void:

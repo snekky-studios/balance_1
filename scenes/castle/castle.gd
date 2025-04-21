@@ -12,19 +12,26 @@ var stats : CastleData = null
 var spawners : Array[Spawner] = []
 
 var sprite : Sprite2D = null
+var wounder : Wounder = null
+var animation_player : AnimationPlayer = null
 
 func _ready() -> void:
 	sprite = %Sprite
+	wounder = %Wounder
+	animation_player = %AnimationPlayer
 	
 	stats.changed.connect(_on_stats_changed)
 	stats.spawner_grown.connect(_on_stats_spawner_grown)
+	
+	animation_player.play("idle")
+	animation_player.seek(randf_range(0.0, 7.5))
 	return
 
 func corrupt(source : Entity, damage : float) -> void:
-	stats.corruption -= damage
-	if(stats.corruption <= 0.0):
+	stats.corruption += damage
+	if(stats.corruption >= stats.corruption_max):
 		var new_team : TeamData.Team = source.team
-		stats.corruption = stats.corruption_max
+		stats.corruption = 0.0
 		team = new_team
 		corrupted.emit(self, new_team)
 	return
@@ -43,6 +50,7 @@ func _set_color(color : Color) -> void:
 	return
 
 func _on_stats_changed() -> void:
+	wounder.set_wound(stats.corruption / stats.corruption_max)
 	return
 
 func _set_team(value : TeamData.Team) -> void:

@@ -16,19 +16,24 @@ var stats : SpawnerData = null
 
 var sprite_core : Sprite2D = null
 var sprite_radius : Sprite2D = null
-var collision_shape_radius : CollisionShape2D = null
 var spawn_timer : Timer = null
+var wounder : Wounder = null
+var animation_player : AnimationPlayer = null
 
 func _ready() -> void:
 	sprite_core = %SpriteCore
 	sprite_radius = %SpriteRadius
-	collision_shape_radius = %CollisionShapeRadius
 	spawn_timer = %SpawnTimer
+	wounder = %Wounder
+	animation_player = %AnimationPlayer
 	
 	stats.changed.connect(_on_stats_changed)
 	
 	_on_stats_changed()
 	spawn_timer.start()
+	
+	animation_player.play("idle")
+	animation_player.seek(randf_range(0.0, 2.0))
 	return
 
 static func create_spawner(data : SpawnerData) -> Spawner:
@@ -45,10 +50,10 @@ func spawn_entity() -> Entity:
 	return entity
 
 func corrupt(source : Entity, damage : float) -> void:
-	stats.corruption -= damage
-	if(stats.corruption <= 0.0):
+	stats.corruption += damage
+	if(stats.corruption >= stats.corruption_max):
 		var new_team : TeamData.Team = source.team
-		stats.corruption = stats.corruption_max
+		stats.corruption = 0.0
 		team = new_team
 		corrupted.emit(self, new_team)
 	return
@@ -69,10 +74,13 @@ func _set_color(color : Color) -> void:
 func _on_stats_changed() -> void:
 	sprite_radius.scale = Vector2((stats.spawn_radius * 2.0) / MIN_RADIUS, (stats.spawn_radius * 2.0) / MIN_RADIUS)
 	spawn_timer.wait_time = stats.spawn_timeout
+	wounder.set_wound(stats.corruption / stats.corruption_max)
 	return
 
 func _set_team(value : TeamData.Team) -> void:
 	team = value
+	#if(team == TeamData.Team.TEAM_NONE):
+		#print("here")
 	_set_color(TeamData.TEAM_COLOR[team])
 	return
 

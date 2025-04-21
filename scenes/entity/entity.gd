@@ -1,4 +1,4 @@
-extends RigidBody2D
+extends Area2D
 class_name Entity
 
 signal dying(entity : Entity)
@@ -17,19 +17,25 @@ const COLLISION_INDEX : Dictionary = {
 
 var team : TeamData.Team = TeamData.Team.TEAM_NONE : set = _set_team
 
-var stats : EntityData = null
+@export var stats : EntityData = null
 @export var target : Node2D = null
 var in_range : bool = false # true if target is within attack range
 var in_combat : bool = false # true if actively attacking target
+var velocity : Vector2 = Vector2.ZERO
+var has_death_explosion : bool = false
 
 var sprite : Sprite2D = null
 var dissolver : Dissolver = null
 var wounder : Wounder = null
+var death_explosion : DeathExplosion = null
+var animation_player : AnimationPlayer = null
 
 func _ready() -> void:
 	sprite = %Sprite
 	dissolver = %Dissolver
 	wounder = %Wounder
+	death_explosion = %DeathExplosion
+	animation_player = %AnimationPlayer
 
 	stats.changed.connect(_on_stats_changed)
 	stats.dying.connect(_on_dying)
@@ -40,27 +46,45 @@ func _ready() -> void:
 	dissolver.dissolved.connect(_on_dissolved)
 	
 	wounder.set_unwounded()
+	death_explosion.explosion_radius = 48.0
 	
-	contact_monitor = true
-	max_contacts_reported = 1
+	if(global_position.x < 0.0):
+		global_position.x = 0.0
+	elif(global_position.x > Game.WINDOW_WIDTH):
+		global_position.x = Game.WINDOW_WIDTH
+	if(global_position.y < 0.0):
+		global_position.y = 0.0
+	elif(global_position.y > Game.WINDOW_HEIGHT):
+		global_position.y = Game.WINDOW_HEIGHT
+	
+	animation_player.play("idle")
+	animation_player.seek(randf_range(0.0, 1.5))
 	return
 
 func _physics_process(delta: float) -> void:
 	if(target):
-		if(not in_range):
+		if(target.team == team):
+			target = null
+		elif(target is Entity and not target.is_alive()):
+			target = null
+		elif(not in_range):
 			var distance : float = _distance(self, target)
 			in_range = distance < stats.attack_range
 			var direction : Vector2 = (target.global_position - global_position).normalized()
-			linear_velocity = direction * stats.speed
+			velocity = direction * stats.speed
 		else:
-			linear_velocity = Vector2.ZERO
+			velocity = Vector2.ZERO
 			in_combat = true
 			_attack(delta)
 	else:
-		linear_velocity = Vector2.ZERO
+		velocity = Vector2.ZERO
 		in_range = false
 		in_combat = false
 		need_target.emit(self)
+	return
+
+func _process(delta: float) -> void:
+	position += velocity * delta
 	return
 
 func set_stats(data : EntityData) -> void:
@@ -70,6 +94,9 @@ func set_stats(data : EntityData) -> void:
 	stats.attack_range = data.attack_range
 	stats.speed = data.speed
 	return
+
+func is_alive() -> bool:
+	return stats.hitpoints > 0
 
 func _attack(delta : float) -> void:
 	var damage : float = stats.attack * delta
@@ -90,18 +117,10 @@ func _on_stats_changed() -> void:
 
 func _set_team(value : TeamData.Team) -> void:
 	team = value
+	death_explosion.team = team
 	_set_color(TeamData.TEAM_COLOR[team])
 	# update collision layers and masks
 	match team:
-		TeamData.Team.TEAM_NONE:
-			set_collision_layer_value(COLLISION_INDEX["world"], true)
-			set_collision_layer_value(COLLISION_INDEX["team0"], false)
-			set_collision_layer_value(COLLISION_INDEX["team1"], false)
-			set_collision_layer_value(COLLISION_INDEX["team2"], false)
-			set_collision_mask_value(COLLISION_INDEX["world"], true)
-			set_collision_mask_value(COLLISION_INDEX["team0"], false)
-			set_collision_mask_value(COLLISION_INDEX["team1"], false)
-			set_collision_mask_value(COLLISION_INDEX["team2"], false)
 		TeamData.Team.TEAM_0:
 			set_collision_layer_value(COLLISION_INDEX["world"], false)
 			set_collision_layer_value(COLLISION_INDEX["team0"], true)
@@ -129,10 +148,23 @@ func _set_team(value : TeamData.Team) -> void:
 			set_collision_mask_value(COLLISION_INDEX["team0"], true)
 			set_collision_mask_value(COLLISION_INDEX["team1"], true)
 			set_collision_mask_value(COLLISION_INDEX["team2"], false)
+		TeamData.Team.TEAM_NONE:
+			set_collision_layer_value(COLLISION_INDEX["world"], true)
+			set_collision_layer_value(COLLISION_INDEX["team0"], false)
+			set_collision_layer_value(COLLISION_INDEX["team1"], false)
+			set_collision_layer_value(COLLISION_INDEX["team2"], false)
+			set_collision_mask_value(COLLISION_INDEX["world"], true)
+			set_collision_mask_value(COLLISION_INDEX["team0"], false)
+			set_collision_mask_value(COLLISION_INDEX["team1"], false)
+			set_collision_mask_value(COLLISION_INDEX["team2"], false)
+		_:
+			print("error: entity team not valid - ", team)
 	return
 
 func _on_dying() -> void:
 	dissolver.dissolve()
+	if(has_death_explosion):
+		death_explosion.explode(stats.attack)
 	dying.emit(self)
 	return
 

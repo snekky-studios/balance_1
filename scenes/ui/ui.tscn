@@ -1,11 +1,30 @@
-[gd_scene load_steps=11 format=3 uid="uid://c0daytx0ufxkf"]
+[gd_scene load_steps=18 format=3 uid="uid://c0daytx0ufxkf"]
 
 [ext_resource type="Theme" uid="uid://sb67uyy60h2q" path="res://assets/themes/theme.tres" id="1_f5cxw"]
 [ext_resource type="Script" uid="uid://dt03hqaybk5us" path="res://scenes/ui/ui.gd" id="1_u7n8c"]
 [ext_resource type="StyleBox" uid="uid://ce77sp80om45k" path="res://scenes/ui/panel_container_style_box.tres" id="3_aac20"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aac20"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hl07w"]
+bg_color = Color(0.016, 0.486, 0.424, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_swkix"]
+bg_color = Color(0.988, 0.737, 0.737, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hc5d0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n3vwu"]
+bg_color = Color(1, 0.847, 0.596, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y220t"]
+bg_color = Color(0.0784314, 0.188235, 0.345098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4kltc"]
+bg_color = Color(0.862745, 0.988235, 0.0156863, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aac20"]
-bg_color = Color(0.6, 0.6, 0.6, 0.25098)
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jcn1r"]
 bg_color = Color(0.0784314, 0.188235, 0.345098, 1)
@@ -78,7 +97,7 @@ theme = ExtResource("1_f5cxw")
 layout_mode = 2
 size_flags_horizontal = 2
 theme = ExtResource("1_f5cxw")
-text = "Tendrils: "
+text = "Structures: "
 
 [node name="LabelStructuresCount0" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxStructures"]
 unique_name_in_owner = true
@@ -95,7 +114,7 @@ theme = ExtResource("1_f5cxw")
 layout_mode = 2
 size_flags_horizontal = 2
 theme = ExtResource("1_f5cxw")
-text = "Entities: "
+text = "Tendrils: "
 
 [node name="LabelEntitiesCount0" type="Label" parent="HBoxStats/PanelTeam0/VBoxTeam0/VBoxStatsTeam0/HBoxEntities"]
 unique_name_in_owner = true
@@ -654,32 +673,69 @@ layout_mode = 2
 size_flags_vertical = 8
 text = "^"
 
-[node name="VBoxButtons" type="VBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -54.0
-offset_top = -35.0
+offset_left = -128.0
+offset_top = -200.0
 grow_horizontal = 0
 grow_vertical = 0
+
+[node name="VBoxTeams" type="VBoxContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+alignment = 2
+
+[node name="ButtonBlessTeam0" type="Button" parent="HBoxContainer/VBoxTeams"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 32)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_aac20")
+theme_override_styles/normal = SubResource("StyleBoxFlat_hl07w")
+text = "Team 0"
+
+[node name="ButtonBlessTeam1" type="Button" parent="HBoxContainer/VBoxTeams"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 32)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_aac20")
+theme_override_styles/normal = SubResource("StyleBoxFlat_swkix")
+text = "Team 1"
+
+[node name="ButtonBlessTeam2" type="Button" parent="HBoxContainer/VBoxTeams"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 32)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_hc5d0")
+theme_override_styles/normal = SubResource("StyleBoxFlat_n3vwu")
+text = "Team 2"
+
+[node name="VBoxButtons" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
 theme = ExtResource("1_f5cxw")
 alignment = 2
 
-[node name="PanelContainerBomb" type="PanelContainer" parent="VBoxButtons"]
+[node name="PanelContainerBomb" type="PanelContainer" parent="HBoxContainer/VBoxButtons"]
 layout_mode = 2
 
-[node name="ProgressBarBomb" type="ProgressBar" parent="VBoxButtons/PanelContainerBomb"]
+[node name="ProgressBarBomb" type="ProgressBar" parent="HBoxContainer/VBoxButtons/PanelContainerBomb"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
-max_value = 5.0
-value = 5.0
+theme_override_styles/background = SubResource("StyleBoxFlat_y220t")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4kltc")
+max_value = 10.0
 show_percentage = false
 
-[node name="ButtonBomb" type="Button" parent="VBoxButtons/PanelContainerBomb"]
+[node name="ButtonBomb" type="Button" parent="HBoxContainer/VBoxButtons/PanelContainerBomb"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(128, 64)
 layout_mode = 2
@@ -698,6 +754,70 @@ theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_aac20")
 text = "Bomb"
+
+[node name="PanelContainerScrambler" type="PanelContainer" parent="HBoxContainer/VBoxButtons"]
+layout_mode = 2
+
+[node name="ProgressBarScrambler" type="ProgressBar" parent="HBoxContainer/VBoxButtons/PanelContainerScrambler"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_y220t")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4kltc")
+max_value = 20.0
+show_percentage = false
+
+[node name="ButtonScrambler" type="Button" parent="HBoxContainer/VBoxButtons/PanelContainerScrambler"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 64)
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_normal_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_aac20")
+text = "Scramble"
+
+[node name="PanelContainerBless" type="PanelContainer" parent="HBoxContainer/VBoxButtons"]
+layout_mode = 2
+
+[node name="ProgressBarBless" type="ProgressBar" parent="HBoxContainer/VBoxButtons/PanelContainerBless"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_y220t")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4kltc")
+max_value = 90.0
+show_percentage = false
+
+[node name="ButtonBless" type="Button" parent="HBoxContainer/VBoxButtons/PanelContainerBless"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 64)
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_normal_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_aac20")
+text = "Bless"
 
 [node name="VBoxEvolution" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -771,4 +891,9 @@ text = "0"
 [connection signal="pressed" from="HBoxStats/PanelTeam1/VBoxTeam1/ButtonTeam1" to="." method="_on_button_team_1_pressed"]
 [connection signal="pressed" from="HBoxStats/PanelTeam2/VBoxTeam2/ButtonTeam2" to="." method="_on_button_team_2_pressed"]
 [connection signal="pressed" from="HBoxStats/ButtonExpand" to="." method="_on_button_expand_pressed"]
-[connection signal="pressed" from="VBoxButtons/PanelContainerBomb/ButtonBomb" to="." method="_on_button_bomb_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxTeams/ButtonBlessTeam0" to="." method="_on_button_bless_team_0_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxTeams/ButtonBlessTeam1" to="." method="_on_button_bless_team_1_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxTeams/ButtonBlessTeam2" to="." method="_on_button_bless_team_2_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxButtons/PanelContainerBomb/ButtonBomb" to="." method="_on_button_bomb_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxButtons/PanelContainerScrambler/ButtonScrambler" to="." method="_on_button_scrambler_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxButtons/PanelContainerBless/ButtonBless" to="." method="_on_button_bless_pressed"]

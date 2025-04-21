@@ -1,14 +1,17 @@
-[gd_scene load_steps=9 format=3 uid="uid://dyldvgs0pxnhe"]
+[gd_scene load_steps=13 format=3 uid="uid://dyldvgs0pxnhe"]
 
 [ext_resource type="Script" uid="uid://ycawj3f3ngy2" path="res://scenes/spawner/spawner.gd" id="1_eoeca"]
 [ext_resource type="Shader" uid="uid://di6g21ujarmk3" path="res://scenes/spawner/spawner_core.gdshader" id="1_uhn3r"]
 [ext_resource type="Texture2D" uid="uid://5qup4lnyifuf" path="res://assets/sprites/sprite_base.png" id="2_wtxcb"]
+[ext_resource type="Texture2D" uid="uid://by6mxmxfhls13" path="res://assets/sprites/spawner.png" id="3_4t4hp"]
 [ext_resource type="Shader" uid="uid://cl2hodk5krwe3" path="res://scenes/spawner/spawner_radius.gdshader" id="4_byvvi"]
+[ext_resource type="Script" uid="uid://81m16jl32yif" path="res://scripts/wounder.gd" id="5_t4i6e"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uhn3r"]
 resource_local_to_scene = true
 shader = ExtResource("1_uhn3r")
 shader_parameter/color = Color(0, 0, 0, 1)
+shader_parameter/u_wound_value = 0.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uhn3r"]
 radius = 16.0
@@ -18,8 +21,43 @@ resource_local_to_scene = true
 shader = ExtResource("4_byvvi")
 shader_parameter/color = Color(0, 0, 0, 1)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_byvvi"]
-radius = 48.0
+[sub_resource type="Animation" id="Animation_4t4hp"]
+resource_name = "idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteCore:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_eixug"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteCore:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xodbr"]
+_data = {
+&"RESET": SubResource("Animation_eixug"),
+&"idle": SubResource("Animation_4t4hp")
+}
 
 [node name="Spawner" type="Area2D"]
 script = ExtResource("1_eoeca")
@@ -27,7 +65,8 @@ script = ExtResource("1_eoeca")
 [node name="SpriteCore" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_uhn3r")
-texture = ExtResource("2_wtxcb")
+texture = ExtResource("3_4t4hp")
+hframes = 4
 
 [node name="CollisionShapeCore" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_uhn3r")
@@ -38,11 +77,19 @@ material = SubResource("ShaderMaterial_byvvi")
 scale = Vector2(3, 3)
 texture = ExtResource("2_wtxcb")
 
-[node name="CollisionShapeRadius" type="CollisionShape2D" parent="."]
-unique_name_in_owner = true
-shape = SubResource("CircleShape2D_byvvi")
-
 [node name="SpawnTimer" type="Timer" parent="."]
 unique_name_in_owner = true
+
+[node name="Wounder" type="Node" parent="." node_paths=PackedStringArray("sprite_2d")]
+unique_name_in_owner = true
+script = ExtResource("5_t4i6e")
+sprite_2d = NodePath("../SpriteCore")
+metadata/_custom_type_script = "uid://81m16jl32yif"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_xodbr")
+}
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

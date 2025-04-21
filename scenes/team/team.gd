@@ -1,13 +1,15 @@
 extends Node2D
 class_name Team
 
+const MAX_ENTITIES_PER_CASTLE : int = 128
+
 signal castle_corrupted(castle : Castle, old_team : TeamData.Team, new_team : TeamData.Team)
 signal spawner_corrupted(spawner : Spawner, old_team : TeamData.Team, new_team : TeamData.Team)
 signal entity_dying(entity : Entity)
 signal entity_attacked(target : Entity, damage : float)
 signal entity_needs_target(entity : Entity)
 signal evolve_progress_updated(value : float)
-
+signal node_created
 
 const TEAM_DATA : TeamData = preload("res://scenes/team/team_data.tres")
 const CASTLE_DATA : CastleData = preload("res://scenes/castle/castle_data.tres")
@@ -22,10 +24,14 @@ var castles : Array[Castle] = []
 var spawners : Array[Spawner] = []
 var entities : Array[Entity] = []
 
+var entities_have_death_explosion : bool = false
+
 var evolver : Evolver = null
+var timer_death_explosion : Timer = null
 
 func _ready() -> void:
 	evolver = %Evolver
+	timer_death_explosion = %TimerDeathExplosion
 	
 	stats = TEAM_DATA.duplicate()
 	stats.castle_data = CASTLE_DATA.duplicate()
@@ -61,6 +67,7 @@ func add_castle(castle : Castle) -> void:
 	castle.corrupted.connect(_on_castle_corrupted)
 	castle.spawner_grown.connect(_on_castle_spawner_grown)
 	castles.append(castle)
+	node_created.emit()
 	return
 
 static func swap_castle(castle : Castle, new_team : Team) -> void:
@@ -92,6 +99,7 @@ func add_spawner(castle : Castle, spawner : Spawner) -> void:
 	spawner.spawned.connect(add_entity)
 	spawner.corrupted.connect(_on_spawner_corrupted)
 	spawners.append(spawner)
+	node_created.emit()
 	return
 
 func remove_spawner(spawner : Spawner) -> void:
@@ -119,13 +127,19 @@ static func swap_spawner(spawner : Spawner, new_team : Team) -> void:
 	return
 
 func add_entity(entity : Entity) -> void:
+	if(num_entities() >= MAX_ENTITIES_PER_CASTLE * max(castles.size(), 1)):
+		entity.queue_free()
+		return
 	add_child(entity)
 	entity.team = stats.team
+	if(entities_have_death_explosion):
+		entity.has_death_explosion = true
 	entity.dying.connect(_on_entity_dying)
 	entity.dead.connect(_on_entity_dead)
 	entity.attacked.connect(_on_entity_attacked)
 	entity.need_target.connect(_on_entity_needs_target)
 	entities.append(entity)
+	node_created.emit()
 	return
 
 func remove_entity(entity : Entity) -> void:
@@ -136,6 +150,35 @@ func remove_entity(entity : Entity) -> void:
 	entity.queue_free()
 	return
 
+static func swap_entity(entity : Entity, new_team : Team) -> void:
+	# remove entity from old team
+	var postition_temp : Vector2 = entity.global_position
+	var team : Team = entity.get_parent()
+	team.remove_child(entity)
+	entity.dying.disconnect(team._on_entity_dying)
+	entity.dead.disconnect(team._on_entity_dead)
+	entity.attacked.disconnect(team._on_entity_attacked)
+	entity.need_target.disconnect(team._on_entity_needs_target)
+	team.entities.erase(entity)
+	# add entity to new team
+	entity.team = new_team.stats.team
+	new_team.add_child(entity)
+	entity.dying.connect(new_team._on_entity_dying)
+	entity.dead.connect(new_team._on_entity_dead)
+	entity.attacked.connect(new_team._on_entity_attacked)
+	entity.need_target.connect(new_team._on_entity_needs_target)
+	new_team.entities.append(entity)
+	entity.global_position = postition_temp
+	return
+
+# applies the current stats to all structures
+func update_structure_stats() -> void:
+	for castle : Castle in castles:
+		castle.stats.copy(stats.castle_data)
+	for spawner : Spawner in spawners:
+		spawner.stats.copy(stats.spawner_data)
+	return
+
 # returns an array of all nodes that are part of this team
 func get_nodes() -> Array[Node2D]:
 	var nodes : Array[Node2D] = []
@@ -143,6 +186,18 @@ func get_nodes() -> Array[Node2D]:
 	nodes.append_array(spawners)
 	nodes.append_array(entities)
 	return nodes
+
+func num_structures() -> int:
+	return castles.size() + spawners.size()
+
+func num_entities() -> int:
+	return entities.size()
+
+# all new entities will have a death explosion until the timer runs out and the ability is disabled
+func set_death_explosion() -> void:
+	entities_have_death_explosion = true
+	timer_death_explosion.start()
+	return
 
 func _on_stats_changed() -> void:
 	for castle : Castle in castles:
@@ -186,9 +241,14 @@ func _on_entity_needs_target(entity : Entity) -> void:
 	return
 
 func _on_evolver_evolved(stat_type : Evolver.StatType) -> void:
+	update_structure_stats()
 	#print(stat_type, "\n", stats.castle_data, "\n", stats.spawner_data)
 	return
 
 func _on_evolver_evolve_progress_updated(value : float) -> void:
 	evolve_progress_updated.emit(value)
+	return
+
+func _on_timer_death_explosion_timeout() -> void:
+	entities_have_death_explosion = false
 	return

@@ -4,6 +4,10 @@ class_name Evolver
 signal evolved(stat_type : StatType)
 signal evolve_progress_updated(value : float)
 
+const SPAWN_TIMEOUT_MIN : float = 0.2
+const SPAWN_RADIUS_MAX : float = 360.0
+const ENTITY_ATTACK_RANGE_MAX : float = 128.0
+
 enum StatType {
 	CASTLE_CORRUPTION_MAX,
 	CASTLE_SPAWNER_GROWTH_SPEED,
@@ -29,7 +33,7 @@ const stat_types : Array[StatType] = [
 ]
 
 const EVOLVE_SPEED : float = 10.0 # how much evolve progress per second is made
-const EVOLVE_MODIFIER : float = 0.3 # how much a stat is modified per evolution
+const EVOLVE_MODIFIER : float = 0.4 # how much a stat is modified per evolution
 const RANDOM_COMPONENT : float = 0.05 # each stat varies by this much when randomize_stats is called
 
 var castle_stats : CastleData = null
@@ -61,14 +65,17 @@ func evolve_stat() -> void:
 		StatType.SPAWN_TIMEOUT:
 			# spawn timeout gets better when it goes down
 			spawner_stats.spawn_timeout *= (1.0 - EVOLVE_MODIFIER)
+			spawner_stats.spawn_timeout = max(spawner_stats.spawn_timeout, SPAWN_TIMEOUT_MIN)
 		StatType.SPAWN_RADIUS:
 			spawner_stats.spawn_radius *= (1.0 + EVOLVE_MODIFIER)
+			spawner_stats.spawn_radius = min(spawner_stats.spawn_radius, SPAWN_RADIUS_MAX)
 		StatType.ENTITY_HITPOINTS_MAX:
 			spawner_stats.entity_hitpoints_max *= (1.0 + EVOLVE_MODIFIER)
 		StatType.ENTITY_ATTACK:
 			spawner_stats.entity_attack *= (1.0 + EVOLVE_MODIFIER)
 		StatType.ENTITY_ATTACK_RANGE:
 			spawner_stats.entity_attack_range *= (1.0 + EVOLVE_MODIFIER)
+			spawner_stats.entity_attack_range = min(spawner_stats.entity_attack_range, ENTITY_ATTACK_RANGE_MAX)
 		StatType.ENTITY_SPEED:
 			spawner_stats.entity_speed *= (1.0 + EVOLVE_MODIFIER)
 	evolved.emit(stat_type)

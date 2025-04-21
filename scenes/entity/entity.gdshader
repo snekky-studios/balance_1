@@ -8,6 +8,8 @@ uniform float u_dissolve_value : hint_range(0.0, 1.0);
 uniform sampler2D u_wound_texture : source_color;
 uniform float u_wound_value : hint_range(0.0, 1.0);
 
+const vec4 WHITE = vec4(1.0, 1.0, 1.0, 1.0);
+
 float circle(vec2 st, vec2 center, float radius)
 {
 	return step(distance(st, center), radius);
@@ -27,10 +29,14 @@ float wound(vec2 st, sampler2D wound_texture, float wound_value)
 
 void fragment()
 {
-	COLOR = color;
+	//COLOR = texture(TEXTURE, UV);
+	if(texture(TEXTURE, UV) == WHITE)
+	{
+		COLOR = color;
+	}
 	vec2 center = vec2(0.5, 0.5);
 	float radius = 0.5;
-	COLOR.a *= circle(UV, center, radius);
+	//COLOR.a *= circle(UV, center, radius);
 	COLOR.a *= dissolve(UV, u_dissolve_texture, u_dissolve_value);
 	COLOR.gb *= wound(UV, u_wound_texture, u_wound_value);
 }

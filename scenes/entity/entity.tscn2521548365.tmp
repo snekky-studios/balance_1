@@ -1,18 +1,13 @@
-[gd_scene load_steps=16 format=3 uid="uid://kkfo0bulyt44"]
+[gd_scene load_steps=11 format=3 uid="uid://kkfo0bulyt44"]
 
 [ext_resource type="Script" uid="uid://citd2ytpy6rjn" path="res://scenes/entity/entity.gd" id="1_t6or0"]
-[ext_resource type="Script" uid="uid://cu2b68b5u34x6" path="res://scenes/entity/entity_data.gd" id="2_1w0ui"]
+[ext_resource type="Texture2D" uid="uid://5qup4lnyifuf" path="res://assets/sprites/sprite_base.png" id="2_l1e1h"]
 [ext_resource type="Shader" uid="uid://buqn2wxtv57kw" path="res://scenes/entity/entity.gdshader" id="2_uorv3"]
 [ext_resource type="Texture2D" uid="uid://cqop4vnd8s3lx" path="res://scenes/entity/noise_dissolve.tres" id="3_qstjr"]
 [ext_resource type="Texture2D" uid="uid://xsudjx68vhak" path="res://scenes/entity/noise_wound.tres" id="4_8wy7d"]
-[ext_resource type="Texture2D" uid="uid://i5wd0cvqb0vb" path="res://assets/sprites/tendril.png" id="6_1w0ui"]
 [ext_resource type="Script" uid="uid://cghs7jnr5klys" path="res://scripts/dissolver.gd" id="6_acqig"]
 [ext_resource type="Script" uid="uid://81m16jl32yif" path="res://scripts/wounder.gd" id="7_mdi4j"]
 [ext_resource type="PackedScene" uid="uid://d08dmu20xpre6" path="res://scenes/death_explosion/death_explosion.tscn" id="8_et01i"]
-
-[sub_resource type="Resource" id="Resource_uphax"]
-script = ExtResource("2_1w0ui")
-metadata/_custom_type_script = "uid://cu2b68b5u34x6"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qstjr"]
 resource_local_to_scene = true
@@ -26,54 +21,13 @@ shader_parameter/u_wound_value = 1.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_qstjr"]
 radius = 16.0
 
-[sub_resource type="Animation" id="Animation_1w0ui"]
-resource_name = "idle"
-length = 1.5
-loop_mode = 2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1, 1.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3]
-}
-
-[sub_resource type="Animation" id="Animation_uphax"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_8fgnl"]
-_data = {
-&"RESET": SubResource("Animation_uphax"),
-&"idle": SubResource("Animation_1w0ui")
-}
-
 [node name="Entity" type="Area2D"]
-z_index = 1
 script = ExtResource("1_t6or0")
-stats = SubResource("Resource_uphax")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_qstjr")
-texture = ExtResource("6_1w0ui")
-hframes = 4
+texture = ExtResource("2_l1e1h")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_qstjr")
@@ -92,9 +46,3 @@ metadata/_custom_type_script = "uid://81m16jl32yif"
 
 [node name="DeathExplosion" parent="." instance=ExtResource("8_et01i")]
 unique_name_in_owner = true
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_8fgnl")
-}

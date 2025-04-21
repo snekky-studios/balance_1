@@ -3,7 +3,7 @@ class_name CastleData
 
 signal spawner_grown
 
-var corruption : float = 100.0 : set = _set_corruption # when this reaches 0, spawner switches to another team
+var corruption : float = 0.0 : set = _set_corruption # when this reaches 0, spawner switches to another team
 var corruption_max : float = 100.0 : set = _set_corruption_max
 var spawner_growth : float = 0.0 : set = _set_spawner_growth # creates a new spawner when it reaches `spawner_growth_max`
 var spawner_growth_max : float = 200.0 : set = _set_spanwer_growth_max
@@ -21,7 +21,6 @@ func _set_corruption(value : float) -> void:
 
 func _set_corruption_max(value : float) -> void:
 	corruption_max = value
-	corruption = corruption_max
 	emit_changed()
 	return
 
@@ -34,7 +33,6 @@ func _set_spawner_growth(value : float) -> void:
 
 func _set_spanwer_growth_max(value : float) -> void:
 	spawner_growth_max = value
-	spawner_growth = 0
 	return
 
 func _set_spawner_growth_speed(value : float) -> void:

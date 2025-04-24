@@ -1,26 +1,165 @@
-[gd_scene load_steps=6 format=3 uid="uid://b1tuacklurd8d"]
+[gd_scene load_steps=14 format=3 uid="uid://b1tuacklurd8d"]
 
 [ext_resource type="Script" uid="uid://1ntbb3nvpmjm" path="res://scenes/bomb/bomb.gd" id="1_eax2s"]
 [ext_resource type="Shader" uid="uid://deklq1unqgji3" path="res://scenes/bomb/bomb.gdshader" id="1_rqjch"]
 [ext_resource type="Texture2D" uid="uid://5qup4lnyifuf" path="res://assets/sprites/sprite_base.png" id="2_eax2s"]
+[ext_resource type="Shader" uid="uid://c3j1sd8oaanth" path="res://scenes/bomb/dissolver.gdshader" id="2_tvxi3"]
+[ext_resource type="Texture2D" uid="uid://dglcpnygfe5ny" path="res://assets/sprites/bomb.png" id="3_eax2s"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_76ftv"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_tvxi3"]
+frequency = 0.2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_j1o36"]
+width = 256
+height = 256
+noise = SubResource("FastNoiseLite_tvxi3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nfm48"]
+shader = ExtResource("2_tvxi3")
+shader_parameter/u_dissolve_texture = SubResource("NoiseTexture2D_j1o36")
+shader_parameter/u_dissolve_value = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tvxi3"]
 shader = ExtResource("1_rqjch")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tvxi3"]
 radius = 128.0
 
+[sub_resource type="Animation" id="Animation_eax2s"]
+resource_name = "explode"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteExplosion:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpriteExplosion:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpriteHover:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SpriteExplosion:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(2, 2)]
+}
+
+[sub_resource type="Animation" id="Animation_76ftv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteExplosion:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpriteExplosion:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpriteHover:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SpriteExplosion:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2, 2)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_76ftv"]
+_data = {
+&"RESET": SubResource("Animation_76ftv"),
+&"explode": SubResource("Animation_eax2s")
+}
+
 [node name="Bomb" type="Area2D"]
 collision_mask = 14
 script = ExtResource("1_eax2s")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_76ftv")
+[node name="SpriteExplosion" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0)
+material = SubResource("ShaderMaterial_nfm48")
+scale = Vector2(2, 2)
+texture = ExtResource("3_eax2s")
+
+[node name="SpriteHover" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_tvxi3")
 scale = Vector2(8, 8)
 texture = ExtResource("2_eax2s")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_tvxi3")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_76ftv")
+}
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]

@@ -79,8 +79,6 @@ func _on_stats_changed() -> void:
 
 func _set_team(value : TeamData.Team) -> void:
 	team = value
-	#if(team == TeamData.Team.TEAM_NONE):
-		#print("here")
 	_set_color(TeamData.TEAM_COLOR[team])
 	return
 

@@ -9,7 +9,7 @@ enum Team {
 }
 
 const TEAM_COLOR : Dictionary = {
-	Team.TEAM_NONE : Color.WHITE,
+	Team.TEAM_NONE : Color.BLACK,
 	Team.TEAM_0 : Color(0.016, 0.486, 0.424),
 	Team.TEAM_1 : Color(0.988, 0.737, 0.737),
 	Team.TEAM_2 : Color(1.0, 0.847, 0.596)

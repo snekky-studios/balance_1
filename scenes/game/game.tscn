@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://crgk8nc02gxxm"]
+[gd_scene load_steps=8 format=3 uid="uid://crgk8nc02gxxm"]
 
 [ext_resource type="Script" uid="uid://c1l7mjar0rd27" path="res://scenes/game/game.gd" id="1_sul5r"]
 [ext_resource type="PackedScene" uid="uid://bpojui7x8uolx" path="res://scenes/battle/battle.tscn" id="2_7h61r"]
+[ext_resource type="Texture2D" uid="uid://gpyy5jru0w1h" path="res://assets/sprites/background.png" id="2_bdhmt"]
 [ext_resource type="PackedScene" uid="uid://b1tuacklurd8d" path="res://scenes/bomb/bomb.tscn" id="3_0sr1o"]
 [ext_resource type="PackedScene" uid="uid://c0daytx0ufxkf" path="res://scenes/ui/ui.tscn" id="4_kelw5"]
 [ext_resource type="PackedScene" uid="uid://dtjlocmm3i6a1" path="res://scenes/scrambler/scrambler.tscn" id="4_lfrn8"]
@@ -9,6 +10,17 @@
 
 [node name="Game" type="Node"]
 script = ExtResource("1_sul5r")
+
+[node name="CanvasLayerEnvironment" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayerEnvironment"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bdhmt")
 
 [node name="Battle" parent="." instance=ExtResource("2_7h61r")]
 unique_name_in_owner = true

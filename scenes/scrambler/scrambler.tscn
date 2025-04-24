@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dtjlocmm3i6a1"]
+[gd_scene load_steps=10 format=3 uid="uid://dtjlocmm3i6a1"]
 
 [ext_resource type="Script" uid="uid://c2056oxbbe7mn" path="res://scenes/scrambler/scrambler.gd" id="1_me5f0"]
 [ext_resource type="Shader" uid="uid://b4yotjgptaqx1" path="res://scenes/scrambler/scrambler.gdshader" id="2_dmoi2"]
 [ext_resource type="Texture2D" uid="uid://5qup4lnyifuf" path="res://assets/sprites/sprite_base.png" id="2_kfhpb"]
+[ext_resource type="Texture2D" uid="uid://cprdmot7bgq3w" path="res://assets/sprites/scramble.png" id="2_m7h3j"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m7h3j"]
 shader = ExtResource("2_dmoi2")
@@ -10,17 +11,114 @@ shader = ExtResource("2_dmoi2")
 [sub_resource type="CircleShape2D" id="CircleShape2D_me5f0"]
 radius = 128.0
 
+[sub_resource type="Animation" id="Animation_dmoi2"]
+resource_name = "scramble"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteScramble:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpriteScramble:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpriteHover:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_m7h3j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteScramble:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpriteScramble:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpriteHover:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_m7h3j"]
+_data = {
+&"RESET": SubResource("Animation_m7h3j"),
+&"scramble": SubResource("Animation_dmoi2")
+}
+
 [node name="Scrambler" type="Area2D"]
 collision_mask = 14
 script = ExtResource("1_me5f0")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="SpriteScramble" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(2, 2)
+texture = ExtResource("2_m7h3j")
+
+[node name="SpriteHover" type="Sprite2D" parent="."]
+unique_name_in_owner = true
 material = SubResource("ShaderMaterial_m7h3j")
 scale = Vector2(8, 8)
 texture = ExtResource("2_kfhpb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_me5f0")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_m7h3j")
+}
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]

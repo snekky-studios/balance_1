@@ -81,6 +81,7 @@ static func swap_castle(castle : Castle, new_team : Team) -> void:
 	# add castle to new team
 	new_team.add_child(castle)
 	castle.team = new_team.stats.team
+	castle.stats.corruption = 0.0
 	castle.corrupted.connect(new_team._on_castle_corrupted)
 	castle.spawner_grown.connect(new_team._on_castle_spawner_grown)
 	new_team.castles.append(castle)
@@ -120,6 +121,7 @@ static func swap_spawner(spawner : Spawner, new_team : Team) -> void:
 	# add spawner to new team
 	spawner.team = new_team.stats.team
 	new_team.add_child(spawner)
+	spawner.stats.corruption = 0.0
 	spawner.spawned.connect(new_team.add_entity)
 	spawner.corrupted.connect(new_team._on_spawner_corrupted)
 	new_team.spawners.append(spawner)

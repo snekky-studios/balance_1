@@ -14,6 +14,21 @@ shader_parameter/u_wound_value = 0.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_6letw"]
 radius = 128.0
 
+[sub_resource type="Animation" id="Animation_qfbvt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
 [sub_resource type="Animation" id="Animation_vutgn"]
 resource_name = "idle"
 length = 10.0
@@ -31,28 +46,13 @@ tracks/0/keys = {
 "values": [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 2, 3, 2, 1]
 }
 
-[sub_resource type="Animation" id="Animation_qfbvt"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qfbvt"]
 _data = {
 &"RESET": SubResource("Animation_qfbvt"),
 &"idle": SubResource("Animation_vutgn")
 }
 
-[node name="Castle" type="Area2D"]
+[node name="Castle" type="Area2D" groups=["castles"]]
 script = ExtResource("1_sjjxt")
 
 [node name="Sprite" type="Sprite2D" parent="."]

@@ -4,13 +4,19 @@ class_name Scrambler
 signal cooldown_updated(value : float)
 signal entity_changed_team(entity : Entity, new_team : TeamData.Team)
 
+
 var enabled : bool = false
 var targets : Array[Node2D] = []
 
 var cooldown : float = 0.0 : set = _set_cooldown
 var cooldown_max : float = 20.0
 
+var sprite_hover : Sprite2D = null
+var animation_player : AnimationPlayer = null
+
 func _ready() -> void:
+	sprite_hover = %SpriteHover
+	animation_player = %AnimationPlayer
 	disable()
 	return
 
@@ -38,13 +44,13 @@ func enable() -> void:
 	if(not can_enable()):
 		return
 	enabled = true
-	visible = true
+	sprite_hover.visible = true
 	targets.clear()
 	return
 
 func disable() -> void:
 	enabled = false
-	visible = false
+	sprite_hover.visible = false
 	targets.clear()
 	return
 
@@ -52,6 +58,7 @@ func can_enable() -> bool:
 	return cooldown >= cooldown_max
 
 func scramble() -> void:
+	animation_player.play("scramble")
 	for target : Node2D in targets:
 		if(target is Entity):
 			var teams : Array[TeamData.Team] = [TeamData.Team.TEAM_0, TeamData.Team.TEAM_1, TeamData.Team.TEAM_2]
@@ -68,7 +75,6 @@ func _set_cooldown(value : float) -> void:
 		cooldown = cooldown_max
 	cooldown_updated.emit(cooldown)
 	return
-
 
 func _on_area_entered(area: Area2D) -> void:
 	if(not enabled):

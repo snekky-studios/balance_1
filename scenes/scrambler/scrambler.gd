@@ -13,10 +13,12 @@ var cooldown_max : float = 20.0
 
 var sprite_hover : Sprite2D = null
 var animation_player : AnimationPlayer = null
+var audio_stream_player : AudioStreamPlayer = null
 
 func _ready() -> void:
 	sprite_hover = %SpriteHover
 	animation_player = %AnimationPlayer
+	audio_stream_player = %AudioStreamPlayer
 	disable()
 	return
 
@@ -59,6 +61,7 @@ func can_enable() -> bool:
 
 func scramble() -> void:
 	animation_player.play("scramble")
+	audio_stream_player.play()
 	for target : Node2D in targets:
 		if(target is Entity):
 			var teams : Array[TeamData.Team] = [TeamData.Team.TEAM_0, TeamData.Team.TEAM_1, TeamData.Team.TEAM_2]

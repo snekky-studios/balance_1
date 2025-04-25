@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://d08dmu20xpre6"]
+[gd_scene load_steps=9 format=3 uid="uid://d08dmu20xpre6"]
 
 [ext_resource type="Script" uid="uid://chow6i5jq2nvb" path="res://scenes/death_explosion/death_explosion.gd" id="1_1d5jt"]
 [ext_resource type="Texture2D" uid="uid://d1gll1vew0gww" path="res://assets/sprites/explosion1.png" id="2_2fs33"]
+[ext_resource type="AudioStream" uid="uid://ddfm06etn7if8" path="res://assets/sounds/explosion.wav" id="3_wq2s8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rbn1b"]
 radius = 34.0
@@ -91,6 +92,12 @@ _data = {
 &"explode": SubResource("Animation_2fs33")
 }
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_wq2s8"]
+random_pitch = 1.5
+random_volume_offset_db = 1.0
+streams_count = 1
+stream_0/stream = ExtResource("3_wq2s8")
+
 [node name="DeathExplosion" type="Area2D"]
 collision_mask = 14
 script = ExtResource("1_1d5jt")
@@ -110,6 +117,11 @@ unique_name_in_owner = true
 libraries = {
 &"": SubResource("AnimationLibrary_ibu1b")
 }
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_wq2s8")
+volume_db = -5.0
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]

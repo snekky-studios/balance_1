@@ -29,6 +29,7 @@ var dissolver : Dissolver = null
 var wounder : Wounder = null
 var death_explosion : DeathExplosion = null
 var animation_player : AnimationPlayer = null
+var audio_stream_player : AudioStreamPlayer = null
 
 func _ready() -> void:
 	sprite = %Sprite
@@ -36,6 +37,7 @@ func _ready() -> void:
 	wounder = %Wounder
 	death_explosion = %DeathExplosion
 	animation_player = %AnimationPlayer
+	audio_stream_player = %AudioStreamPlayer
 
 	stats.changed.connect(_on_stats_changed)
 	stats.dying.connect(_on_dying)
@@ -162,6 +164,7 @@ func _set_team(value : TeamData.Team) -> void:
 	return
 
 func _on_dying() -> void:
+	audio_stream_player.play()
 	dissolver.dissolve()
 	if(has_death_explosion):
 		death_explosion.explode(stats.attack)

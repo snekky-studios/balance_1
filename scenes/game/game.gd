@@ -10,14 +10,22 @@ var battle : Battle = null
 var bomb : Bomb = null
 var scrambler : Scrambler = null
 var blesser : Blesser = null
+var timer_score : Timer = null
 var ui : Control = null
 
+var animation_player : AnimationPlayer = null
+var label_ending_score : Label = null
+
 func _ready() -> void:
+	get_tree().paused = true
 	battle = %Battle
 	bomb = %Bomb
 	scrambler = %Scrambler
 	blesser = %Blesser
+	timer_score = %TimerScore
 	ui = %UI
+	animation_player = %AnimationPlayer
+	label_ending_score = %LabelEndingScore
 	
 	battle.team_stats_changed.connect(ui.update_stats)
 	battle.team_0.evolver.evolve_progress_updated.connect(ui._set_evolution_progress_0)
@@ -41,10 +49,17 @@ func _ready() -> void:
 	ui.button_bless_team_0_pressed.connect(_on_button_blessed_pressed.bind(TeamData.Team.TEAM_0))
 	ui.button_bless_team_1_pressed.connect(_on_button_blessed_pressed.bind(TeamData.Team.TEAM_1))
 	ui.button_bless_team_2_pressed.connect(_on_button_blessed_pressed.bind(TeamData.Team.TEAM_2))
+	
+	animation_player.play("opening")
+	await get_tree().create_timer(10.0).timeout
+	get_tree().paused = false
 	return
 
 func _on_battle_one_team_remaining() -> void:
-	
+	timer_score.stop()
+	animation_player.play("ending")
+	await get_tree().create_timer(1.0).timeout
+	get_tree().paused = true
 	return
 
 func _on_button_blessed_pressed(team : TeamData.Team) -> void:
@@ -63,4 +78,10 @@ func _on_button_blessed_pressed(team : TeamData.Team) -> void:
 func _on_timer_score_timeout() -> void:
 	score += 1
 	ui.set_score_count(score)
+	label_ending_score.text = "You survived for " + str(score) + " seconds."
+	return
+
+
+func _on_button_retry_pressed() -> void:
+	get_tree().reload_current_scene()
 	return

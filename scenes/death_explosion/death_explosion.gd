@@ -17,15 +17,18 @@ var targets : Array[Node2D] = []
 var sprite : Sprite2D = null
 var collision_shape : CollisionShape2D = null
 var animation_player : AnimationPlayer = null
+var audio_stream_player : AudioStreamPlayer = null
 
 func _ready() -> void:
 	sprite = %Sprite
 	collision_shape = %CollisionShape
 	animation_player = %AnimationPlayer
+	audio_stream_player = %AudioStreamPlayer
 	return
 
 func explode(damage : float) -> void:
 	animation_player.play("explode")
+	audio_stream_player.play()
 	for target : Node2D in targets:
 		if(target is Entity and target.is_alive()):
 			target.stats.hitpoints -= damage

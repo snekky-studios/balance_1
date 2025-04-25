@@ -15,11 +15,13 @@ var cooldown_max : float = 10.0
 var sprite_explosion : Sprite2D = null
 var sprite_hover : Sprite2D = null
 var animation_player : AnimationPlayer = null
+var audio_stream_player : AudioStreamPlayer = null
 
 func _ready() -> void:
 	sprite_explosion = %SpriteExplosion
 	sprite_hover = %SpriteHover
 	animation_player = %AnimationPlayer
+	audio_stream_player = %AudioStreamPlayer
 	disable()
 	return
 
@@ -63,6 +65,7 @@ func can_enable() -> bool:
 
 func detonate() -> void:
 	animation_player.play("explode")
+	audio_stream_player.play()
 	var tween : Tween = create_tween()
 	tween.tween_property(sprite_explosion.material, "shader_parameter/u_dissolve_value", 0.0, DISSOLVE_TIME)
 	for target : Node2D in targets:

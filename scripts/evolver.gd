@@ -4,7 +4,7 @@ class_name Evolver
 signal evolved(stat_type : StatType)
 signal evolve_progress_updated(value : float)
 
-const SPAWN_TIMEOUT_MIN : float = 0.2
+const SPAWN_TIMEOUT_MIN : float = 1.0
 const SPAWN_RADIUS_MAX : float = 360.0
 const ENTITY_ATTACK_RANGE_MAX : float = 128.0
 
@@ -33,7 +33,7 @@ const stat_types : Array[StatType] = [
 ]
 
 const EVOLVE_SPEED : float = 10.0 # how much evolve progress per second is made
-const EVOLVE_MODIFIER : float = 0.4 # how much a stat is modified per evolution
+const EVOLVE_MODIFIER : float = 0.3 # how much a stat is modified per evolution
 const RANDOM_COMPONENT : float = 0.05 # each stat varies by this much when randomize_stats is called
 
 var castle_stats : CastleData = null

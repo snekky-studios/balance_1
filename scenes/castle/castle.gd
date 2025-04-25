@@ -43,6 +43,12 @@ func increase_spawner_growth(delta : float) -> void:
 func add_spawner(spawner : Spawner) -> void:
 	if(not spawner in spawners):
 		spawners.append(spawner)
+		modulate_spawner_radiuses()
+	return
+
+func modulate_spawner_radiuses() -> void:
+	for spawner : Spawner in spawners:
+		spawner.sprite_radius.modulate.a = (0.1 / spawners.size())
 	return
 
 func _set_color(color : Color) -> void:

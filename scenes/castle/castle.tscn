@@ -57,6 +57,7 @@ script = ExtResource("1_sjjxt")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
+z_index = 1
 material = SubResource("ShaderMaterial_vutgn")
 texture = ExtResource("3_vutgn")
 hframes = 4

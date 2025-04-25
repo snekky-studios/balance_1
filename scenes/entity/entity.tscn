@@ -66,7 +66,7 @@ _data = {
 }
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_uphax"]
-random_pitch = 1.5
+random_pitch = 1.1
 random_volume_offset_db = 1.0
 streams_count = 1
 stream_0/stream = ExtResource("10_uphax")
@@ -78,6 +78,7 @@ stats = SubResource("Resource_uphax")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
+z_index = 2
 material = SubResource("ShaderMaterial_qstjr")
 texture = ExtResource("6_1w0ui")
 hframes = 4
@@ -109,4 +110,4 @@ libraries = {
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = SubResource("AudioStreamRandomizer_uphax")
-volume_db = -5.0
+volume_db = -10.0

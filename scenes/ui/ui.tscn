@@ -21,7 +21,7 @@ bg_color = Color(1, 0.847, 0.596, 1)
 bg_color = Color(0.0784314, 0.188235, 0.345098, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4kltc"]
-bg_color = Color(0.862745, 0.988235, 0.0156863, 1)
+bg_color = Color(0.752941, 0.752941, 0.752941, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aac20"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -82,7 +82,7 @@ custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 size_flags_vertical = 10
 theme = ExtResource("1_f5cxw")
-text = "Team 1"
+text = "Green"
 
 [node name="VBoxStatsTeam0" type="VBoxContainer" parent="HBoxStats/PanelTeam0/VBoxTeam0"]
 unique_name_in_owner = true
@@ -293,7 +293,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 size_flags_vertical = 10
-text = "Team 2"
+text = "Pink"
 
 [node name="VBoxStatsTeam1" type="VBoxContainer" parent="HBoxStats/PanelTeam1/VBoxTeam1"]
 unique_name_in_owner = true
@@ -472,7 +472,7 @@ custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 size_flags_vertical = 10
 theme = ExtResource("1_f5cxw")
-text = "Team 3"
+text = "Yellow"
 
 [node name="VBoxStatsTeam2" type="VBoxContainer" parent="HBoxStats/PanelTeam2/VBoxTeam2"]
 unique_name_in_owner = true
@@ -832,8 +832,9 @@ grow_horizontal = 0
 layout_mode = 2
 
 [node name="LabelEvolution0" type="Label" parent="VBoxEvolution/HBoxTeam0"]
+custom_minimum_size = Vector2(213, 0)
 layout_mode = 2
-text = "Team 1 Evolution Progress: "
+text = "Green Evolution Progress: "
 
 [node name="ProgressBarEvolution0" type="ProgressBar" parent="VBoxEvolution/HBoxTeam0"]
 unique_name_in_owner = true
@@ -847,8 +848,9 @@ show_percentage = false
 layout_mode = 2
 
 [node name="LabelEvolution1" type="Label" parent="VBoxEvolution/HBoxTeam1"]
+custom_minimum_size = Vector2(213, 0)
 layout_mode = 2
-text = "Team 2 Evolution Progress: "
+text = "Pink Evolution Progress: "
 
 [node name="ProgressBarEvolution1" type="ProgressBar" parent="VBoxEvolution/HBoxTeam1"]
 unique_name_in_owner = true
@@ -862,8 +864,9 @@ show_percentage = false
 layout_mode = 2
 
 [node name="LabelEvolution2" type="Label" parent="VBoxEvolution/HBoxTeam2"]
+custom_minimum_size = Vector2(213, 0)
 layout_mode = 2
-text = "Team 3 Evolution Progress: "
+text = "Yellow Evolution Progress: "
 
 [node name="ProgressBarEvolution2" type="ProgressBar" parent="VBoxEvolution/HBoxTeam2"]
 unique_name_in_owner = true
@@ -880,7 +883,7 @@ offset_bottom = 40.0
 
 [node name="LabelScore" type="Label" parent="HBoxScore"]
 layout_mode = 2
-text = "Score: "
+text = "Seconds Survived: "
 
 [node name="LabelScoreCount" type="Label" parent="HBoxScore"]
 unique_name_in_owner = true

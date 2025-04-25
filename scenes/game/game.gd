@@ -15,6 +15,7 @@ var ui : Control = null
 
 var animation_player : AnimationPlayer = null
 var label_ending_score : Label = null
+var audio_stream_player : AudioStreamPlayer = null
 
 func _ready() -> void:
 	get_tree().paused = true
@@ -26,6 +27,7 @@ func _ready() -> void:
 	ui = %UI
 	animation_player = %AnimationPlayer
 	label_ending_score = %LabelEndingScore
+	audio_stream_player = %AudioStreamPlayer
 	
 	battle.team_stats_changed.connect(ui.update_stats)
 	battle.team_0.evolver.evolve_progress_updated.connect(ui._set_evolution_progress_0)
@@ -53,6 +55,7 @@ func _ready() -> void:
 	animation_player.play("opening")
 	await get_tree().create_timer(10.0).timeout
 	get_tree().paused = false
+	audio_stream_player.play()
 	return
 
 func _on_battle_one_team_remaining() -> void:

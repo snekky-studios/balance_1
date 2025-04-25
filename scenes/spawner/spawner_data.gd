@@ -3,7 +3,7 @@ class_name SpawnerData
 
 var corruption : float = 0.0 : set = _set_corruption # when this reaches 0, spawner switches to another team
 var corruption_max : float = 100.0 : set = _set_corruption_max
-var spawn_timeout : float = 1.0 : set = _set_spawn_timeout
+var spawn_timeout : float = 3.0 : set = _set_spawn_timeout
 var spawn_radius : float = 48.0 : set = _set_spawn_radius
 
 var entity_hitpoints_max : float = 100.0 : set = _set_entity_hitpoints_max

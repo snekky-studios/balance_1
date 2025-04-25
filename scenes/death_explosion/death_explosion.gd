@@ -1,7 +1,7 @@
 extends Area2D
 class_name DeathExplosion
 
-const EXPLOSION_RADIUS_BASE : float = 48.0
+const EXPLOSION_RADIUS_BASE : float = 32.0
 
 const COLLISION_INDEX : Dictionary = {
 	"world" : 1,
@@ -11,7 +11,7 @@ const COLLISION_INDEX : Dictionary = {
 }
 
 var team : TeamData.Team = TeamData.Team.TEAM_NONE : set = _set_team
-var explosion_radius : float = 34.0 : set = _set_explosion_radius
+var explosion_radius : float = 48.0 : set = _set_explosion_radius
 var targets : Array[Node2D] = []
 
 var sprite : Sprite2D = null

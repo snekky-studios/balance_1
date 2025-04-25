@@ -14,8 +14,13 @@ config/name="balance_1"
 run/main_scene="uid://crgk8nc02gxxm"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 run/max_fps=60
-boot_splash/show_image=false
-config/icon="res://assets/sprites/icon.svg"
+boot_splash/use_filter=false
+boot_splash/image="uid://bm8cux7rfnd4w"
+config/icon="uid://c0j1dh5ys0mrn"
+
+[audio]
+
+buses/default_bus_layout="res://assets/themes/default_bus_layout.tres"
 
 [debug]
 

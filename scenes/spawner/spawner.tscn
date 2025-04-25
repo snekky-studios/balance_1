@@ -64,6 +64,7 @@ script = ExtResource("1_eoeca")
 
 [node name="SpriteCore" type="Sprite2D" parent="."]
 unique_name_in_owner = true
+z_index = 1
 material = SubResource("ShaderMaterial_uhn3r")
 texture = ExtResource("3_4t4hp")
 hframes = 4
@@ -79,6 +80,7 @@ texture = ExtResource("2_wtxcb")
 
 [node name="SpawnTimer" type="Timer" parent="."]
 unique_name_in_owner = true
+wait_time = 3.0
 
 [node name="Wounder" type="Node" parent="." node_paths=PackedStringArray("sprite_2d")]
 unique_name_in_owner = true

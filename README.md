@@ -2,4 +2,4 @@
 
 
 
-Created for Gamedev.js Jam 2025
+Created for Gamedev.js Jam 2025 - Theme: Balance
